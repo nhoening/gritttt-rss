@@ -1,0 +1,5 @@
+Put this directory on your webserver
+
+Adjust address of your public tt-rss feed in the javascript.
+
+Your HTML on the server needs to execute the javascript onload and you only need to put an element with id 'tt-rss-public' somewhere, which will contain the resulting HTML.

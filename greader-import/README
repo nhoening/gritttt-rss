@@ -1,0 +1,12 @@
+README
+
+what is this?
+
+prep
+---
+export json feed from GReader
+make sure a unifeed exists in tt-rss, write down ID
+
+apply this python script (tell it the feed ID & your user ID)
+
+import resulting SQL into tt-rss

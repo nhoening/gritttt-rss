@@ -1,0 +1,4 @@
+Make sure you have a dedicated unifeed in tt-rss
+
+Put files in a dir on your webserver.
+Adjust tt-rss credentials in the PHP file
