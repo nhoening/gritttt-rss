@@ -35,7 +35,7 @@ def s(unicode_str):
      - getting rid of all non-ascii things for a sane database
      - escape quotations
     '''
-    return unicode_str.encode('ascii', 'ignore')\
+    return unicode_str.encode('utf-8', 'ignore')\
                       .replace('"', '\\"')\
                       .replace("'", "\\'")
 
