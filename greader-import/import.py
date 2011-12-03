@@ -86,8 +86,8 @@ for item in gex['items']:
     note = ''
     if len(item['annotations']) > 0:
         note = item['annotations'][0]['content']
-    ttim.write("INSERT INTO ttrss_user_entries (ref_id, feed_id, owner_uid, note) \
-                SELECT max(id), {fid}, {oid}, '{n}' FROM ttrss_entries;\n\n"\
+    ttim.write("INSERT INTO ttrss_user_entries (ref_id, feed_id, owner_uid, published, note) \
+                SELECT max(id), {fid}, {oid}, 1, '{n}' FROM ttrss_entries;\n\n"\
                 .format(fid=feed_id , oid=owner_uid, n=s(note)))
     counter += 1
 
