@@ -1,12 +1,34 @@
 README
 
-what is this?
+This allows you to import your shared items from your Google Reader account to 
+your tt-rss database.
 
-prep
----
-export json feed from GReader
-make sure a unifeed exists in tt-rss, write down ID
+Preparation
+------------
+1)
+First, make sure you have a backup of your current tt-rss database.
+It probably is also a good idea to stop feed updates while you
+are doing this. I am not responsible for data loss or corruption.
 
-apply this python script (tell it the feed ID & your user ID)
+2)
+You need to export your shared items from your Google account.
+Go to Google Reader -> settings, and export the shared items in Google's 
+custom json format. Store the export in this directory. It should be 
+called 'shared-items.json'.
 
-import resulting SQL into tt-rss
+3)
+Make sure a unifeed exists in tt-rss. You can insert it via executing 
+the SQL in the file 'create-tt-unifeed.sql', which you can find in the 
+main directory. Take note of the ID this feed has in the table ttrss_feeds
+(You'll need that to create imports).
+
+Importing
+-----------
+1)
+Execute the 'import.py' script (tell it your user Id & the feed ID when
+it asks for them). 
+You should now have a file called 'tt-import.sql' in this directory.
+
+2)
+Import the resulting SQL in 'tt-import-sql' into your tt-rss database
+(via some import functionality, e.g. with myphpadmin)
