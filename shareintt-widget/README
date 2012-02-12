@@ -1,4 +1,17 @@
-Make sure you have a dedicated unifeed in tt-rss
+A Drive-by shareing widget (share any web page in your tt-rss)
+=================================================================
+
+(This is a very preliminary installation instruvtion)
+
+Make sure you have a dedicated gritttt feed in tt-rss.
 
 Put files in a dir on your webserver.
+
+Adjust path to form.html in dialog.js
+
+Adjust path to your site in bookmarklet.js.
+Copy content of bookmarklet.js in a bookmark of your browser.
+
+(Later)
+
 Adjust tt-rss credentials in the PHP file

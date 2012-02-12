@@ -1,1 +1,1 @@
-javascript:(function(){tt_script=document.createElement('script');tt_script.type='text/javascript';tt_script.src='http://www.nicolashoening.de/tt-unifeed/dialog.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(tt_script);})();
+javascript:(function(){tt_script=document.createElement('script');tt_script.type='text/javascript';tt_script.src='http://www.nicolashoening.de/gritttt-rss/dialog.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(tt_script);})();
