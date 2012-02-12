@@ -37,7 +37,7 @@ function loadXMLDoc(dname)
 
 function displayRSS(feed_url, element_id)
 {
-  // get RSS via proxy circumvent the browser sandbox
+  // get RSS via proxy to circumvent the browser sandbox
   xml = loadXMLDoc('proxy.php?url=' + encodeURIComponent(feed_url));
   xsl = loadXMLDoc("rss2html.xslt"); 
   // code for IE

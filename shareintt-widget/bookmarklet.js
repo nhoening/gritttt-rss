@@ -1,4 +1,1 @@
-/*
- * This needs to get the URL and title of the currently visited website.
- * Then it opens up the form and inserts them (get started from the Twitter share bookmarklet)
-*/
+javascript:(function(){tt_script=document.createElement('script');tt_script.type='text/javascript';tt_script.src='http://www.nicolashoening.de/tt-unifeed/dialog.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(tt_script);})();
