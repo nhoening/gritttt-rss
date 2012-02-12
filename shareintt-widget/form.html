@@ -2,10 +2,28 @@
 <html>
   <head/>
   <body>
-    <form action="http://www.nicolashoening.de/gritttt-rss/backoffice-oder-so.php">
-      <input type="text" size="40" name="url"></input><!-- hide this -->
-      <input id="gritttt-title" type="text" size="80" name="title"></input>
-      <textarea rows="2" cols+"20" id="gritttt-comment" name="comment"></textarea>
-    </form>
+        <form action="http://www.nicolashoening.de/gritttt-rss/share.php" method="post">
+            <input id="gritttt-url" name="gritttt-url" type="hidden" size="40" name="url"></input>
+            <label for="gritttt-title">Titel:</label>
+            <input id="gritttt-title" name="gritttt-title" type="text" size="80" name="title"></input>
+            <label for="gritttt-comment">Comment:</label>
+            <textarea rows="2" cols+"20" id="gritttt-comment" name="comment"></textarea>
+            <input type="submit" name="shareit" value="Share"/>
+        </form>
+        <script type="text/javascript">
+            function getParameterByName(name)
+            {
+              name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+              var regexS = "[\\?&]" + name + "=([^&#]*)";
+              var regex = new RegExp(regexS);
+              var results = regex.exec(window.location.search);
+              if(results == null)
+                return "";
+              else
+                return decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+            document.getElementById('gritttt-url').value = getParameterByName('url');
+            document.getElementById('gritttt-title').value = getParameterByName('title');
+        </script>
   </body>
 </html>
