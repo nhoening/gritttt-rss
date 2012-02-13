@@ -13,5 +13,9 @@
  */
 
 
-return 1;
 ?>
+<script>
+window.onload = function(){
+        window.parent.postMessage('shared', '*'); //TODO: only send to specific URI
+};
+</script>

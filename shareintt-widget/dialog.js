@@ -1,7 +1,8 @@
 
 (function(){
 
-    var iframe_url = "http://www.nicolashoening.de/gritttt-rss/form.html";
+    var host = 'http://www.nicolashoening.de';
+    var iframe_url = host + "/gritttt-rss/form.html";
     iframe_url += "?url=" + encodeURIComponent(location.href);
     iframe_url += "&title=" + encodeURIComponent(document.title); 
     var iframe_id = 'gritttt-iframe';
@@ -24,6 +25,26 @@
         str += "</div>"
         div.innerHTML = str;
         document.body.insertBefore(div, document.body.firstChild);
+   
+        // listen for success/failure report 
+        // first create IE + others compatible event handler
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+        eventer(messageEvent,function(e) {
+            console.log('parent received message: "' + e.data + '" from ' + e.origin);
+            if (e.origin == host) {
+                console.log('host confirmed');
+                if (e.data == 'shared') {
+                    document.getElementById(div_id).style.display='none';
+                }
+                else if(e.data == 'failure') {
+                    alert('oops');
+                }
+            }
+        },false);
+
+
     } else {
         document.getElementById(div_id).style.display = 'block';
     }
