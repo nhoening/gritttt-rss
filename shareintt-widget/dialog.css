@@ -1,0 +1,17 @@
+
+#gritttt-div {
+    position:fixed;
+    top:0px;
+    width:100%;
+    height:100%;
+    z-index:10000;
+    text-align: center;
+    background-image: url('bg.png');
+    background-repeat: repeat;
+}
+
+#gritttt-iframe{
+    width:600px;
+    margin: 0 auto; 
+}
+

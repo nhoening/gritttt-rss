@@ -1,14 +1,36 @@
 <!-- Form to display in iframe, calls the PHP on the server with details about the site to share -->
 <html>
-  <head/>
+  <head>
+    <style type="text/css">
+        #gritttt-form {
+            width: 570px;
+            height: 200px;
+            padding: 20px;
+            background-color: white;
+            font-size: 16px;
+        }
+        #gritttt-heading {
+            font-size: 20px;
+            text-align: center;
+        }
+        #gritttt-submit {
+            float:right;
+        }
+    </style>
+  </head>
   <body>
-        <form action="http://www.nicolashoening.de/gritttt-rss/share.php" method="post">
+        <form id="gritttt-form"
+              action="http://www.nicolashoening.de/gritttt-rss/share.php" method="post">
+            <div id="gritttt-heading">Share this item in your tt-rss:</div> 
+            <br/>
             <input id="gritttt-url" name="gritttt-url" type="hidden" size="40" name="url"></input>
-            <label for="gritttt-title">Titel:</label>
-            <input id="gritttt-title" name="gritttt-title" type="text" size="80" name="title"></input>
+            <label for="gritttt-title">Title:</label>
+            <input id="gritttt-title" name="gritttt-title" type="text" size="60" name="title"></input>
+            <br/>
             <label for="gritttt-comment">Comment:</label>
-            <textarea rows="2" cols+"20" id="gritttt-comment" name="comment"></textarea>
-            <input type="submit" name="shareit" value="Share"/>
+            <textarea rows="2" cols="40" id="gritttt-comment" name="comment"></textarea>
+            <br/>
+            <input id="gritttt-submit" type="submit" name="shareit" value="Share"/>
         </form>
         <script type="text/javascript">
             function getParameterByName(name)
