@@ -1,63 +1,53 @@
 <?php
 /* 
- This script takes website details from the form and inserts
- them into the tt-rss DB.
-
- It needs to know database credentials, id of user in DB and gritttt-id
- In particular,
- * Make new entry in ttrss_entries, set (title, link, content) from request, 
-   also set updated, published & read. Remember new-id
- * Make new entry in ttrss_user_entries, set (new-id->ref_id, gritttt-id->feed_id, user-id->owner_uid) 
- 
- TODO:
-    * Login and possible logout can be done with the JSON API (http://tt-rss.org/redmine/projects/tt-rss/wiki/JsonApiReference). To start with, we could simply check if the user is logged in and report an error if (s)he is not.
-    * The API does not support insertion of a new article (why should it?). Therefore, this needs to be coded by hand
-      Search for 'INSERT' in functions.php to get a start. All we need is to get a database connection and make that insert happen.
- */
-
-
-// This below might be useful to allow sharing only when user is logged in
-//  Then we might need the sessionid from tt-rss here.
-/*
-
-$ttrssServer = 'http://www.nicolashoening.de/tt-rss-test';
-
-function postAPI($data) {                                                                   
-    $data_string = json_encode($data);                                                                                   
-    $ch = curl_init(ttrssServer.'/api');                                                                      
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-        'Content-Type: application/json',                                                                                
-        'Content-Length: ' . strlen($data_string))                                                                       
-    );  
-    return curl_exec($ch);
-}
-$data = array("op" => "isLoggedIn"); 
-echo(postAPI($data));
+ This script takes website details from the form and inserts 
+ them into the tt-rss DB. Put this into the tt-rss directory.
 */
 
-$path_to_ttrss = '../tt-rss-test/';
-require_once($path_to_ttrss."backend.php");
-require_once($path_to_ttrss."functions.php");
-require_once($path_to_ttrss."fb-prefs.php");
+// adapt these
+$feed_id = 174;
+$o_id = 1;  //admin is 1
+
+
+header('Content-Type: text/html; charset=utf-8');
+
+require_once("functions.php");
+require_once("sessions.php");
 
 $link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 init_connection($link);
 
-$login = $_POST["login"]; // make empty?
-$password = $_POST["password"];
+$MSG = 'success';
 
-if (authenticate_user($link, $login, $password)) {
-    db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = ");
+if ($_SESSION["uid"] && validate_session($link)) {
+    try{
+        /*
+        Update db. We needs to know database credentials, id of user in DB and gritttt-id
+        In particular,
+        - Make new entry in ttrss_entries, set (title, link, content) from request, Remember new-id 
+        - Make new entry in ttrss_user_entries, set (new-id->ref_id, gritttt-id->feed_id, user-id->owner_uid) 
+          also set updated, published & read. 
+        */
+        $t = $_POST['gritttt-title'];
+        $u = $_POST['gritttt-url'];
+        $c = $_POST['gritttt-comment'];
+        db_query($link, "INSERT into ttrss_entries (title, link, guid, updated) VALUES ('$t', '$u', '$u', NOW());");
+        if (1 ==1) { // currently only support for MySQL, no postgres love :(
+            $last_id = mysql_insert_id();
+        } else {
+
+        }
+        db_query($link, "INSERT into ttrss_user_entries (ref_id, feed_id, owner_uid, note, published, unread) VALUES ($last_id, $feed_id, $o_id, '$c', 1, 0);");
+    } catch (Exception $e) {  // does not catch DB errors yet?
+        $MSG = 'failure:'.$e->getMessage();
+    }
 } else {
-    echo('please log in');
+    $MSG = 'login';
 }
 ?>
 
 <script>
 window.onload = function(){
-        window.parent.postMessage('<?php echo $RES;?>', '*'); //TODO: only send to specific URI
+        window.parent.postMessage('<?php echo $MSG;?>', '*'); //TODO: only send to specific URI
 };
 </script>

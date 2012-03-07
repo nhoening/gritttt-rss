@@ -1,6 +1,6 @@
 // Adapt this
 var host = 'http://www.nicolashoening.de';
-var ttrss_host = 'http://tt-rss.nicolashoening.de';
+var ttrss_host = 'http://www.nicolashoening.de/tt-rss-test';
 var path_to_gritttt = '/gritttt-rss';
 
 var overlay_id = 'gritttt-overlay';
@@ -54,7 +54,6 @@ function show_msg(overlay, msg)
             if (e.origin == host) {
                 console.log('host confirmed');
                 if (e.data == 'success') {
-                    //show_share_form(div); // for eventual follow-up click ...
                     show_msg(overlay, 'Page successfully shared!');
                 }
                 else if(e.data == 'login') {
@@ -64,7 +63,7 @@ function show_msg(overlay, msg)
                     alert('oops:' + e.data.substring(8));
                 }
             }
-        },false);
+        }, false);
     } else {
         document.getElementById(overlay_id).style.display = 'block';
     }
