@@ -1,5 +1,4 @@
-
-#gritttt-div {
+#gritttt-overlay {
     position:fixed;
     top:0px;
     width:100%;
@@ -10,8 +9,17 @@
     background-repeat: repeat;
 }
 
-#gritttt-iframe{
+#gritttt-box{
     width:600px;
     margin: 0 auto; 
+    background-color: white;
+}
+
+#gritttt-msg{
+    width: 570px;
+    height: 200px;
+    padding: 20px;
+    background-color: white;
+    font-size: 16px;
 }
 

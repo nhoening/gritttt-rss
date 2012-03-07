@@ -1,0 +1,15 @@
+#gritttt-form {
+    width: 570px;
+    height: 200px;
+    padding: 20px;
+    background-color: white;
+    font-size: 16px;
+}
+#gritttt-heading {
+    font-size: 20px;
+    text-align: center;
+}
+#gritttt-submit {
+    float:right;
+}
+
