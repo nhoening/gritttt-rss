@@ -17,6 +17,7 @@ import json
 from datetime import datetime
 from time import time
 import re
+import os
 
 
 # get IDs
@@ -28,8 +29,8 @@ try:
 except:
     print 'Invalid ID (should be a positive number)'
     sys.exit(2)
-print "Please enter the ID of your unifeed (You can create a new feed with the SQL in\
-the file 'create-tt-unifeed.sql'):"
+print "Please enter the ID of your gritttt-feed (You can create a new feed with the SQL in\
+the file 'create-gritttt-feed.sql'):"
 feed_id = raw_input()
 try:
     feed_id = int(feed_id)
@@ -38,16 +39,36 @@ except:
     print 'Invalid ID (should be a positive number)'
     sys.exit(2)
 
-# decoding import
-print "Reading in data from shared-items.json ..."
-gex_im = open('shared-items.json', 'r')
-gex = json.load(gex_im)
-gex_im.close()
+# which data to import
+print "Should we import shared articles (Y/n)? (then I expect you to have a file called shared-items.json - you can export that from Google):"
+do_shared = raw_input().lower()
+if not do_shared in ['', 'y', 'n']:
+    print 'Invalid choice'
+    sys.exit(2)
+if do_shared in ['', 'y']:
+    do_shared = True
+    if not os.path.exists('shared-items.json'):
+        print 'Cannot find the file shared-items.json ...'
+        sys.exit(2)
+else:
+    do_shared = False
+
+print "Should we import starred articles (Y/n)? (then I expect you to have a file called starred-items.json - you can export that from Google):"
+do_starred = raw_input().lower()
+if not do_starred in ['', 'y', 'n']:
+    print 'Invalid choice'
+    sys.exit(2)
+if do_starred in ['', 'y']:
+    do_starred = True
+    if not os.path.exists('starred-items.json'):
+        print 'Cannot find the file starred-items.json ...'
+        sys.exit(2)
+else:
+    do_starred = False
 
 # start writing
 print "Writing tt-import.sql ..."
 ttim = open('tt-import.sql', 'w')
-
 ttim.write('-- SQL Import from Google Reader, created {0} \n\n '\
            .format(datetime.now()))
 
@@ -62,34 +83,53 @@ def s(unicode_str):
     s = re.sub('''(['"])''', r'\\\1', s)
     return s
 
+
+def write_sql(items, shared, c):
+    for item in items:
+        # link
+        link = item['alternate'][0]['href']
+        # title, or just link
+        if item.has_key('title'):
+            title = item['title']
+        else:
+            title = link
+        # content is either under content/content or summary/content
+        content = ''
+        for k in ['content', 'summary']:
+            if item.has_key(k):
+                content += item[k]['content']
+        # updated is timestamp, make nice SQL date
+        updated = datetime.fromtimestamp(item['updated']).strftime('%Y-%m-%d %H-%M-%S')
+        ttim.write("INSERT INTO ttrss_entries (guid, title, link, updated, content) VALUES \
+                    ('{g}', '{t}', '{l}', '{u}', '{c}');\n"\
+                    .format(g='%s,imported:%f' % (s(link), time()),
+                            t=s(title), l=s(link), u=updated, c=s(content)))
+        # copy user notes
+        note = ''
+        if len(item['annotations']) > 0:
+            note = item['annotations'][0]['content']
+        ttim.write("INSERT INTO ttrss_user_entries (ref_id, feed_id, owner_uid, published, marked,  note) \
+                    SELECT max(id), {fid}, {oid}, {pub}, {mar}, '{n}' FROM ttrss_entries;\n\n"\
+                    .format(fid=feed_id , oid=owner_uid, pub=int(shared), mar=int(not shared), n=s(note)))
+        c += 1
+    return c
+
+
 counter = 0
-for item in gex['items']:
-    # link
-    link = item['alternate'][0]['href']
-    # title, or just link
-    if item.has_key('title'):
-        title = item['title']
-    else:
-        title = link
-    # content is either under content/content or summary/content
-    content = ''
-    for k in ['content', 'summary']:
-        if item.has_key(k):
-            content += item[k]['content']
-    # updated is timestamp, make nice SQL date
-    updated = datetime.fromtimestamp(item['updated']).strftime('%Y-%m-%d %H-%M-%S')
-    ttim.write("INSERT INTO ttrss_entries (guid, title, link, updated, content) VALUES \
-                ('{g}', '{t}', '{l}', '{u}', '{c}');\n"\
-                .format(g='%s,imported:%f' % (s(link), time()),
-                        t=s(title), l=s(link), u=updated, c=s(content)))
-    # copy user notes
-    note = ''
-    if len(item['annotations']) > 0:
-        note = item['annotations'][0]['content']
-    ttim.write("INSERT INTO ttrss_user_entries (ref_id, feed_id, owner_uid, published, note) \
-                SELECT max(id), {fid}, {oid}, 1, '{n}' FROM ttrss_entries;\n\n"\
-                .format(fid=feed_id , oid=owner_uid, n=s(note)))
-    counter += 1
+
+if do_shared:
+    print "Reading in data from shared-items.json ..."
+    gex_im = open('shared-items.json', 'r')
+    gex = json.load(gex_im)
+    gex_im.close()
+    counter = write_sql(gex['items'], True, counter)
+
+if do_starred:
+    print "Reading in data from starred-items.json ..."
+    gex_im = open('starred-items.json', 'r')
+    gex = json.load(gex_im)
+    gex_im.close()
+    counter = write_sql(gex['items'], False, counter)
 
 ttim.close()
 

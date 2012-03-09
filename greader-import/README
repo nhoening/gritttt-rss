@@ -12,9 +12,9 @@ are doing this. I am not responsible for data loss or corruption.
 
 2)
 You need to export your shared items from your Google account.
-Go to Google Reader -> settings, and export the shared items in Google's 
-custom json format. Store the export in this directory. It should be 
-called 'shared-items.json'.
+Go to Google Reader -> settings, and export the shared/starred items in Google's 
+custom json format. Store the export in this directory. The files should be 
+called 'shared-items.json' or 'starred-items.json'.
 
 3)
 Make sure a unifeed exists in tt-rss. You can insert it via executing 
