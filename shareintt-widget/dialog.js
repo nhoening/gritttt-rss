@@ -21,6 +21,14 @@ function show_msg(overlay, msg)
     overlay.innerHTML = '<div id="' + box_id + '"><div id="' + msg_id + '">' + msg + '</div></div>';
 }
 
+function show_overlay(show) 
+{
+    if (show) {
+        document.getElementById(overlay_id).style.display = 'block';
+    }else {
+        document.getElementById(overlay_id).style.display = 'none';
+    }
+}
 
 /* Create dialog and listen for messages from iframe */
 (function(){
@@ -40,7 +48,7 @@ function show_msg(overlay, msg)
         overlay.id = overlay_id;
         overlay.title = "click to close window.";
         overlay.onclick = function(){
-            document.getElementById(overlay_id).style.display='none';
+            show_overlay(false);
         };
         document.body.insertBefore(overlay, document.body.firstChild);
  
@@ -54,7 +62,7 @@ function show_msg(overlay, msg)
             if (e.origin == host) {
                 console.log('host confirmed');
                 if (e.data == 'success') {
-                    show_msg(overlay, 'Page successfully shared!');
+                    show_msg(overlay, 'Page successfully shared! Click <a href="" onclick="show_overlay(false);">here</a> to close.');
                 }
                 else if(e.data == 'login') {
                     show_msg(overlay, 'Please log in to <a href="' + ttrss_host + '">your tt-rss reader</a>.');
@@ -65,7 +73,7 @@ function show_msg(overlay, msg)
             }
         }, false);
     } else {
-        document.getElementById(overlay_id).style.display = 'block';
+        show_overlay(true);
     }
 
     // create the gritttt-box with the iframe if first click on this page or if we now show a message/
