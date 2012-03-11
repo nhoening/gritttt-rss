@@ -1,6 +1,6 @@
 /*
-This javascript makes HTML by letting the public tt-rss feed be transformed by the xslt. 
-Then, the resulting HTML is inserted into an HTML element on your website.
+This javascript creates HTML from a public tt-rss feed by transforming it with xslt. 
+Then, it inserts it into an HTML element on your website.
 
 Include it in your HTML head:
 

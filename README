@@ -22,4 +22,13 @@ In order to make the move feel like Google Reader never happened, we want to get
 Thus, on a novemberish afternoon in February 2012, Amsterdam public library saw the birth of gritttt-rss:
 Google Reader Inspired Transplants To Tiny, Tiny rss.
 
-Please find installation instructions in the subdirectories (TODO).
+
+Installation
+--------------------
+
+Please find installation instructions in the subdirectories:
+* driveby-sharing
+  Install Drive-by-sharing on your host that also runs tt-rss, and find code for the bookmarklet.
+* shared-widget
+  
+

@@ -3,8 +3,9 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:atom="http://www.w3.org/2005/Atom">
 
-<xsl:template match="/">
+<xsl:output method="html"/>
 
+<xsl:template match="/">
   <h2>My public feed</h2>
 
   <div><xsl:value-of select="feed/title" /></div>

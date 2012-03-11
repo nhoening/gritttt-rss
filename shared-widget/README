@@ -4,3 +4,5 @@ A widget to display your shared items on any webpage
 Put this directory on your webserver.
 
 Your HTML on the server needs to execute the javascript onload. It needs to pass it the address of your public tt-rss feed and the ID of an element somewhere on your page, into which the resulting HTML will be inserted once the page is loaded. Look into example.html to see what you have to do.
+
+TODO: path to proxy.php from website
