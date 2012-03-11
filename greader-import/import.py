@@ -98,12 +98,16 @@ def write_sql(items, shared, c):
         for k in ['content', 'summary']:
             if item.has_key(k):
                 content += item[k]['content']
-        # updated is timestamp, make nice SQL date
-        updated = datetime.fromtimestamp(item['updated']).strftime('%Y-%m-%d %H-%M-%S')
-        ttim.write("INSERT INTO ttrss_entries (guid, title, link, updated, content) VALUES \
-                    ('{g}', '{t}', '{l}', '{u}', '{c}');\n"\
+        #  we use this to fill in X_entered, which ttrss fill in when
+        #  it enters a new entry
+        now = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
+         # updated is when feed item was published, make nice SQL date
+        pub = datetime.fromtimestamp(item['published']).strftime('%Y-%m-%d %H-%M-%S')
+
+        ttim.write("INSERT INTO ttrss_entries (guid, title, link, date_entered, date_updated, updated, content) VALUES \
+                    ('{g}', '{t}', '{l}', '{now}', '{now}', '{pub}', '{c}');\n"\
                     .format(g='%s,imported:%f' % (s(link), time()),
-                            t=s(title), l=s(link), u=updated, c=s(content)))
+                            t=s(title), l=s(link), now=now, pub=pub, c=s(content)))
         # copy user notes
         note = ''
         if len(item['annotations']) > 0:

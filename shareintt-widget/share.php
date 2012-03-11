@@ -26,7 +26,7 @@ if ($_SESSION["uid"] && validate_session($link)) {
         $u .= ',imported:'.time();
         $c = $_POST['gritttt-comment'];
         // Make new entry in ttrss_entries, set (title, link, content) from request, Remember new-id 
-        db_query($link, "INSERT into ttrss_entries (title, link, guid, updated) VALUES ('$t', '$u', '$u', NOW());");
+        db_query($link, "INSERT into ttrss_entries (title, link, guid, date_entered, date_updated, updated) VALUES ('$t', '$u', '$u', NOW(), NOW(), NOW());");
         if (1 ==1) { // currently only support for MySQL, no postgres love :(
             $last_id = mysql_insert_id();
         } else {
