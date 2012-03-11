@@ -16,8 +16,12 @@ jQuery(document).ready(function(){
   displayRSS(feed_url, element_id);
 });
 
-Replace feed_url with the HTTP-address of your tt-rss feed (Preferences -> Feeds -> Published & shared -> Display URL) and element_id with the HTML element you want to display the RSS feed in.
+The feed_url with the HTTP-address of your tt-rss feed (Preferences -> Feeds -> Published & shared -> Display URL) and element_id is the HTML element you want to display the RSS feed in.
 */
+
+// adjust this if your page is not in the same directory as this.
+// The path to this directory can be relative or absolute (a full URL).
+var path_to_gritttt = '';
 
 function loadXMLDoc(dname)
 {
@@ -35,11 +39,25 @@ function loadXMLDoc(dname)
   return xhttp.responseXML;
 }
 
+/* reference our CSS styling */
+function includeCSS()
+{
+    var head = document.getElementsByTagName("head")[0];
+    var css = document.createElement('link');
+    css.type = 'text/css';
+    css.rel = 'stylesheet';
+    css.href = path_to_gritttt + "widget.css";
+    css.media = 'screen';
+    head.appendChild(css);
+}
+
+/* make HTML and insert it */
 function displayRSS(feed_url, element_id)
 {
+  includeCSS();
   // get RSS via proxy to circumvent the browser sandbox
-  xml = loadXMLDoc('proxy.php?url=' + encodeURIComponent(feed_url));
-  xsl = loadXMLDoc("rss2html.xslt"); 
+  xml = loadXMLDoc(path_to_gritttt + 'proxy.php?url=' + encodeURIComponent(feed_url));
+  xsl = loadXMLDoc(path_to_gritttt + "rss2html.xslt"); 
   // code for IE
   if (window.ActiveXObject)
   {
@@ -50,7 +68,6 @@ function displayRSS(feed_url, element_id)
   else if (document.implementation && document.implementation.createDocument)
   {
     xsltProcessor = new XSLTProcessor();
-    console.log(xsl);
     xsltProcessor.importStylesheet(xsl);
     
     html = xsltProcessor.transformToFragment(xml, document);
