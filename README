@@ -26,9 +26,13 @@ Google Reader Inspired Transplants To Tiny, Tiny rss.
 Installation
 --------------------
 
-Please find installation instructions in the subdirectories:
-* driveby-sharing
-  Install Drive-by-sharing on your host that also runs tt-rss, and find code for the bookmarklet.
-* shared-widget
+Note that drive-by-sharing and the import feature both require a dedicated extra feed, which you can create by executing the SQL in create-gritttt-feed.sql oni your ttrss database.  
   
-
+Here we give an overview which directories contain what and a one-sentence summary of what you need to do.
+Please find detailled installation instructions in the subdirectories' README:
+* driveby-sharing
+  Create the dedicated feed. Put the directory on your host that also runs tt-rss, adjust some variables in the contained files, and install a bookmarklet in your browser.
+* shared-widget
+  Put the directory on your host that also runs tt-rss, adjust a path in a file and call the widget on a website of yours.
+* greader-import
+  Export data from Google. Create the dedicated feed. Execute the import script and execute the resulting SQL on your tt-rss database.  

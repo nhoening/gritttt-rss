@@ -1,7 +1,7 @@
 // Adapt this
 var host = 'http://www.nicolashoening.de';
-var ttrss_host = 'http://www.nicolashoening.de/tt-rss-test';
 var path_to_gritttt = '/gritttt-rss';
+var ttrss_host = 'http://www.nicolashoening.de/tt-rss-test';
 
 var overlay_id = 'gritttt-overlay';
 var box_id = 'gritttt-box';

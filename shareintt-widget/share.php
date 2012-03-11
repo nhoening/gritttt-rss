@@ -6,7 +6,7 @@
 
 // adapt these
 $feed_id = 178;
-$o_id = 1;  //admin is 1
+$user_id = 1;  //admin is 1
 
 
 header('Content-Type: text/html; charset=utf-8');
@@ -33,7 +33,7 @@ if ($_SESSION["uid"] && validate_session($link)) {
 
         }
         // Make new entry in ttrss_user_entries
-        db_query($link, "INSERT into ttrss_user_entries (ref_id, feed_id, owner_uid, note, published, unread) VALUES ($last_id, $feed_id, $o_id, '$c', 1, 0);");
+        db_query($link, "INSERT into ttrss_user_entries (ref_id, feed_id, owner_uid, note, published, unread) VALUES ($last_id, $feed_id, $user_id, '$c', 1, 0);");
     } catch (Exception $e) { // does not catch DB errors yet ?
         $MSG = 'failure:'.$e->getMessage();
     }
