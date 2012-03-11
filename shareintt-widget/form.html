@@ -4,8 +4,7 @@
       <link rel="stylesheet" type="text/css" href="form.css"/>
   </head>
   <body>
-        <form id="gritttt-form" method="post"
-              action="http://www.nicolashoening.de/tt-rss-test/share.php">
+        <form id="gritttt-form" method="post" action="">
             <div id="gritttt-heading">Share this page in your tt-rss:</div> 
             <br/>
             <input id="gritttt-url" name="gritttt-url" type="hidden" size="40" name="url"></input>
@@ -29,6 +28,7 @@
               else
                 return decodeURIComponent(results[1].replace(/\+/g, " "));
             }
+            document.getElementById('gritttt-form').action = getParameterByName('action');
             document.getElementById('gritttt-url').value = getParameterByName('url');
             document.getElementById('gritttt-title').value = getParameterByName('title');
         </script>

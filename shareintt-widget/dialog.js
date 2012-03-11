@@ -11,7 +11,8 @@ var msg_id = 'gritttt-msg';
 function show_share_form(overlay)
 {
     var iframe_url = host + path_to_gritttt + "/form.html";
-    iframe_url += "?url=" + encodeURIComponent(location.href);
+    iframe_url += "?action=" + encodeURIComponent(ttrss_host +  "/share.php");
+    iframe_url += "&url=" + encodeURIComponent(location.href);
     iframe_url += "&title=" + encodeURIComponent(document.title);
     overlay.innerHTML = '<iframe frameborder="0" scrolling="no" name="' + box_id + '" id="' + box_id + '" src="' + iframe_url.replace('"', "'") + '" width="600px" height="200px"></iframe>';
 }
