@@ -34,6 +34,7 @@ if ($_SESSION["uid"] && validate_session($link)) {
         }
         // Make new entry in ttrss_user_entries
         db_query($link, "INSERT into ttrss_user_entries (ref_id, feed_id, owner_uid, note, published, unread) VALUES ($last_id, $feed_id, $user_id, '$c', 1, 0);");
+        db_query($link, "UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = $feed_id;");
     } catch (Exception $e) { // does not catch DB errors yet ?
         $MSG = 'failure:'.$e->getMessage();
     }

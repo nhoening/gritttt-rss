@@ -98,22 +98,19 @@ def write_sql(items, shared, c):
         for k in ['content', 'summary']:
             if item.has_key(k):
                 content += item[k]['content']
-        #  we use this to fill in X_entered, which ttrss fill in when
-        #  it enters a new entry
-        now = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
-         # updated is when feed item was published, make nice SQL date
+        # updated is when feed item was published, make nice SQL date
         pub = datetime.fromtimestamp(item['published']).strftime('%Y-%m-%d %H-%M-%S')
 
         ttim.write("INSERT INTO ttrss_entries (guid, title, link, date_entered, date_updated, updated, content) VALUES \
-                    ('{g}', '{t}', '{l}', '{now}', '{now}', '{pub}', '{c}');\n"\
+                    ('{g}', '{t}', '{l}', NOW(), NOW(), '{pub}', '{c}');\n"\
                     .format(g='%s,imported:%f' % (s(link), time()),
-                            t=s(title), l=s(link), now=now, pub=pub, c=s(content)))
+                            t=s(title), l=s(link), pub=pub, c=s(content)))
         # copy user notes
         note = ''
         if len(item['annotations']) > 0:
             note = item['annotations'][0]['content']
-        ttim.write("INSERT INTO ttrss_user_entries (ref_id, feed_id, owner_uid, published, marked,  note) \
-                    SELECT max(id), {fid}, {oid}, {pub}, {mar}, '{n}' FROM ttrss_entries;\n\n"\
+        ttim.write("INSERT INTO ttrss_user_entries (ref_id, feed_id, owner_uid, published, marked,  note, unread) \
+                    SELECT max(id), {fid}, {oid}, {pub}, {mar}, '{n}', 0 FROM ttrss_entries;\n\n"\
                     .format(fid=feed_id , oid=owner_uid, pub=int(shared), mar=int(not shared), n=s(note)))
         c += 1
     return c
@@ -134,6 +131,8 @@ if do_starred:
     gex = json.load(gex_im)
     gex_im.close()
     counter = write_sql(gex['items'], False, counter)
+
+ttim.write("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = {id}".format(id=feed_id));
 
 ttim.close()
 
