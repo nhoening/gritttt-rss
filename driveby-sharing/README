@@ -2,14 +2,14 @@ A Drive-by shareing widget (share any web page in your tt-rss)
 =================================================================
 
 1. Put files in a dir on your webserver.
-   You can put all files in some directory on your webserver. The exception of share.php,
-   that file needs to be in your tt-rss directory.
+   You can put all files in some directory on your webserver. The exception of share.php, that file needs to be in your tt-rss directory.
 
 2. Make sure a dedicted feed exists in your tt-rss. You can insert it via executing 
    the SQL in the file 'create-tt-unifeed.sql', which you can find in the 
    main directory. Take note of the ID this feed has in the table ttrss_feeds.
 
 3. Adjust feed ID and user ID in share.php 
+   The feed ID is the ID of the feed you created in 2. The user is the tt-rss user, and his ID is most likely 1, if you log in with the user 'admin'. That is the standard case, if you use a multi-user tt-rss, fill in the ID you use in that context. 
 
 4. Adjust paths in dialog.js:
    * host - URL of the host on which tt-rss is, e.g. www.example.com
