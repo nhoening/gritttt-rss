@@ -23,8 +23,6 @@ Thus, on a novemberish afternoon in February 2012, Amsterdam public library saw 
 
 
 ## Installation
-
-Note that drive-by-sharing and the import feature both require a dedicated extra feed, which you can create by executing the SQL in create-gritttt-feed.sql oni your ttrss database.  
   
 Here we give an overview which directories contain what and a one-sentence summary of what you need to do.
 Please find detailled installation instructions in the subdirectories' README:
@@ -37,3 +35,5 @@ Please find detailled installation instructions in the subdirectories' README:
 
 * Import<br/>
   Export data from Google. Create the dedicated feed. Execute the import script and execute the resulting SQL on your tt-rss database.  
+
+Note that drive-by-sharing and the import feature both require a dedicated feed to be added to the tt-rss database, which you can create by executing the SQL in `create-gritttt-feed.sql`. 
