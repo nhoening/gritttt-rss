@@ -18,8 +18,8 @@ main directory. Take note of the ID this feed has in the table `ttrss_feeds`
 
 # Importing
 
-1. Execute the `import.py` script (tell it your user Id & the feed ID when
-it asks for them). You should now have a file called `tt-import.sql` in this directory.
+1. Execute the `import.py` script. Tell it your user Id & the feed ID when
+it asks for them, and decide if you want shared and/pr starred items. You should now have a file called `tt-import.sql` in this directory.
 
 2. Import the resulting SQL in `tt-import-sql` into your tt-rss database
 (via some import functionality, e.g. with myphpadmin).
