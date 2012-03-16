@@ -1,5 +1,4 @@
-This allows you to import your shared items from your Google Reader account to 
-your tt-rss database.
+This allows you to import your shared and starred items from your Google Reader account to your tt-rss database.
 
 # Preparation
 
@@ -23,4 +22,4 @@ main directory. Take note of the ID this feed has in the table `ttrss_feeds`
 it asks for them). You should now have a file called `tt-import.sql` in this directory.
 
 2. Import the resulting SQL in `tt-import-sql` into your tt-rss database
-(via some import functionality, e.g. with myphpadmin)
+(via some import functionality, e.g. with myphpadmin).
