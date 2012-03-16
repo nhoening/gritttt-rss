@@ -31,7 +31,9 @@ Please find detailled installation instructions in the subdirectories' README:
 
 * Driveby-sharing
   Create the dedicated feed. Put the directory on your host that also runs tt-rss, adjust some variables in the contained files, and install a bookmarklet in your browser.
+
 * Shared-widget
   Put the directory on your host that also runs tt-rss, adjust a path in a file and call the widget on a website of yours.
+
 * Import
   Export data from Google. Create the dedicated feed. Execute the import script and execute the resulting SQL on your tt-rss database.  
