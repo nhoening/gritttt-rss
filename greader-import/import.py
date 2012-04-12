@@ -40,7 +40,7 @@ except:
     sys.exit(2)
 
 # which data to import
-print "Should we import shared articles (Y/n)? (then I expect you to have exported a file called shared-items.json from Google):"
+print "Should we import shared articles (Y/n)? (then I expect you to have exported a file called shared-items.json ttfrom Google):"
 do_shared = raw_input().lower()
 if not do_shared in ['', 'y', 'n']:
     print 'Invalid choice'
@@ -67,8 +67,8 @@ else:
     do_starred = False
 
 # start writing
-print "Writing tt-import.sql ..."
-ttim = open('tt-import.sql', 'w')
+print "Writing gritttt-import.sql ..."
+ttim = open('gritttt-import.sql', 'w')
 ttim.write('-- SQL Import from Google Reader, created {0} \n\n '\
            .format(datetime.now()))
 
