@@ -40,7 +40,7 @@ except:
     sys.exit(2)
 
 # which data to import
-print "Should we import shared articles (Y/n)? (then I expect you to have a file called shared-items.json - you can export that from Google):"
+print "Should we import shared articles (Y/n)? (then I expect you to have exported a file called shared-items.json from Google):"
 do_shared = raw_input().lower()
 if not do_shared in ['', 'y', 'n']:
     print 'Invalid choice'
@@ -53,7 +53,7 @@ if do_shared in ['', 'y']:
 else:
     do_shared = False
 
-print "Should we import starred articles (Y/n)? (then I expect you to have a file called starred-items.json - you can export that from Google):"
+print "Should we import starred articles (Y/n)? (then I expect you to have exported a file called starred-items.json from Google):"
 do_starred = raw_input().lower()
 if not do_starred in ['', 'y', 'n']:
     print 'Invalid choice'
