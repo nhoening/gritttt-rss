@@ -5,9 +5,9 @@
 */
 
 // adapt these
-$feed_id = 178;
+$feed_id = 0;
 $user_id = 1;  //admin is 1
-
+// end adapt
 
 header('Content-Type: text/html; charset=utf-8');
 

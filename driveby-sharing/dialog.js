@@ -1,7 +1,8 @@
-// Adapt this
+// adapt this
 var host = 'http://www.example.com';
-var path_to_gritttt = '/gritttt';
-var ttrss_host = 'http://www.example.com/tt-rss';
+var path_to_gritttt = '/gritttt_driveby';
+var ttrss_host = 'http://www.example.com/ttrss';
+// end adapt
 
 var overlay_id = 'gritttt-overlay';
 var box_id = 'gritttt-box';
