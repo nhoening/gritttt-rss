@@ -21,7 +21,7 @@ The feed_url with the HTTP-address of your tt-rss feed (Preferences -> Feeds -> 
 
 // adjust this if your page is not in the same directory as this.
 // The path to this directory can be relative or absolute (a full URL).
-var path_to_gritttt = '';
+var path_to_gritttt = 'your_path_here';
 
 function loadXMLDoc(dname)
 {

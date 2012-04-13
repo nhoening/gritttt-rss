@@ -5,7 +5,7 @@
 */
 
 // adapt these
-$feed_id = 0;
+$feed_id = 3;
 $user_id = 1;  //admin is 1
 // end adapt
 
