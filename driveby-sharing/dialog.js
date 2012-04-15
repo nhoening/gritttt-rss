@@ -1,18 +1,23 @@
 // adapt this
-var host = 'http://www.example.com';
-var path_to_gritttt = '/gritttt_driveby';
-var ttrss_host = 'http://www.example.com/ttrss';
+var ttrss_url = 'http://www.example.com/tt-rss';
 // end adapt
 
 var overlay_id = 'gritttt-overlay';
 var box_id = 'gritttt-box';
 var msg_id = 'gritttt-msg';
 
+var gritttt_url = ttrss_url + "/gritttt/driveby-sharing/";
+
+
+function getHostname(str) {
+    var re = new RegExp('^(?:f|ht)tp(?:s)?\://([^/]+)', 'im');
+    return str.match(re)[1].toString();
+}
 
 function show_share_form(overlay)
 {
-    var iframe_url = host + path_to_gritttt + "/form.html";
-    iframe_url += "?action=" + encodeURIComponent(ttrss_host +  "/share.php");
+    var iframe_url = gritttt_url + "form.html";
+    iframe_url += "?action=" + encodeURIComponent(gritttt_url +  "share.php");
     iframe_url += "&url=" + encodeURIComponent(location.href);
     iframe_url += "&title=" + encodeURIComponent(document.title);
     overlay.innerHTML = '<iframe frameborder="0" scrolling="no" name="' + box_id + '" id="' + box_id + '" src="' + iframe_url.replace('"', "'") + '" width="600px" height="200px"></iframe>';
@@ -41,7 +46,7 @@ function show_overlay(show)
         var css = document.createElement('link');
         css.type = 'text/css';
         css.rel = 'stylesheet';
-        css.href = host + path_to_gritttt + "/dialog.css";
+        css.href = gritttt_url + "/dialog.css";
         css.media = 'screen';
         head.appendChild(css);
 
@@ -60,9 +65,7 @@ function show_overlay(show)
         var eventer = window[eventMethod];
         var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
         eventer(messageEvent,function(e) {
-            console.log('parent received message: "' + e.data + '" from ' + e.origin);
-            if (e.origin == host) {
-                console.log('host confirmed');
+            if (e.origin == 'http://' + getHostname(gritttt_url)) {
                 if (e.data == 'success') {
                     show_msg(overlay, 'Page successfully shared! Click <a href="" onclick="show_overlay(false);">here</a> to close.');
                 }

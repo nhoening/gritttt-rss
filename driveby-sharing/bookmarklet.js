@@ -1,1 +1,1 @@
-javascript:(function(){tt_script=document.createElement('script');tt_script.type='text/javascript';tt_script.src='http://www.example.com/gritttt_driveby/dialog.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(tt_script);})();
+javascript:(function(){tt_script=document.createElement('script');tt_script.type='text/javascript';tt_script.src='http://www.example.com/gritttt/driveby-sharing/dialog.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(tt_script);})();

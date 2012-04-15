@@ -5,14 +5,17 @@
 */
 
 // adapt these
-$feed_id = 3;
+$feed_id = 174;
 $user_id = 1;  //admin is 1
 // end adapt
 
 header('Content-Type: text/html; charset=utf-8');
 
-require_once("functions.php");
-require_once("sessions.php");
+// Including some tt-rss libraries ...
+// if your tt-rss instance runs on a version < 1.5.10,
+// remove the 'includes' part of these paths.
+require_once("../../includes/functions.php");
+require_once("../../includes/sessions.php");
 
 $link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 init_connection($link);
