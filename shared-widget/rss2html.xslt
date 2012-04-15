@@ -5,6 +5,9 @@
 
 <xsl:output method="html"/>
 
+<xsl:param name="max_rows"/>
+
+
 <xsl:template match="/">
   <h2>My public feed</h2>
 
@@ -12,32 +15,34 @@
 
   <!-- TODO: limit number of entries (configurable?) -->
   <xsl:for-each select="atom:feed/atom:entry">
-    <xsl:variable name="oddeven-class">
-      <xsl:choose>
-        <xsl:when test="position() mod 2 = 0">tt-even</xsl:when>
-        <xsl:otherwise>tt-odd</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="firstlast-class">
-      <xsl:choose>
-        <xsl:when test="position() = 1">tt-first</xsl:when>
-        <xsl:when test="position() = last()">tt-last</xsl:when>
-        <xsl:otherwise></xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <div>
-      <xsl:attribute name="class">
-        tt-entry
-        <xsl:value-of select="$oddeven-class"/><xsl:text> </xsl:text>
-        <xsl:value-of select="$firstlast-class"/>
-      </xsl:attribute>
-      <xsl:element name="a">
-        <xsl:attribute name="href">
-          <xsl:value-of select="atom:link/@href" />
-        </xsl:attribute>
-        <xsl:value-of select="atom:title" />
-      </xsl:element>
-    </div>
+    <xsl:if test="position() &lt;= $max_rows">
+        <xsl:variable name="oddeven-class">
+          <xsl:choose>
+            <xsl:when test="position() mod 2 = 0">tt-even</xsl:when>
+            <xsl:otherwise>tt-odd</xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="firstlast-class">
+          <xsl:choose>
+            <xsl:when test="position() = 1">tt-first</xsl:when>
+            <xsl:when test="position() = last()">tt-last</xsl:when>
+            <xsl:otherwise></xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <div>
+          <xsl:attribute name="class">
+            tt-entry
+            <xsl:value-of select="$oddeven-class"/><xsl:text> </xsl:text>
+            <xsl:value-of select="$firstlast-class"/>
+          </xsl:attribute>
+          <xsl:element name="a">
+            <xsl:attribute name="href">
+              <xsl:value-of select="atom:link/@href" />
+            </xsl:attribute>
+            <xsl:value-of select="atom:title" />
+          </xsl:element>
+        </div>
+    </xsl:if>
   </xsl:for-each>
 </xsl:template>
 

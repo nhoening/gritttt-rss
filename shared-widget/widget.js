@@ -4,24 +4,28 @@ Then, it inserts it into an HTML element on your website.
 
 Include it in your HTML head:
 
-<script type="text/javascript" src="widget.js"></script>
+<script type="text/javascript" src="path/to/widget.js"></script>
 
 The script might be called on load, this can be done in the body tag:
 
 <body onload="displayRSS(feed_url, element_id);">
 
-or via a third-party event library like jquery:
+The feed_url with the HTTP-address of your tt-rss feed (Preferences -> Feeds -> Published & shared -> Display URL) and element_id is the HTML element you want to display the RSS feed in.
+
+You can of course also use via a third-party event library like jquery:
 
 jQuery(document).ready(function(){
-  displayRSS(feed_url, element_id);
+  displayRSS(feed_url, element_id, 11);
 });
 
-The feed_url with the HTTP-address of your tt-rss feed (Preferences -> Feeds -> Published & shared -> Display URL) and element_id is the HTML element you want to display the RSS feed in.
+Note that here I added an (optional) number parameter which constrains the number of shown rows to 11 (per default it is 8).
 */
 
-// adjust this if your page is not in the same directory as this.
-// The path to this directory can be relative or absolute (a full URL).
-var path_to_gritttt = 'your_path_here';
+// The full URL to your tt-rss installation
+// e.g. 'http://www.nicolashoening.de/tt-rss'
+var ttrss_url = 'http://www.nicolashoening.de/tt-rss-test';
+
+ttrss_url = ttrss_url + "/gritttt/shared-widget/";
 
 function loadXMLDoc(dname)
 {
@@ -35,6 +39,7 @@ function loadXMLDoc(dname)
   }
   xhttp.open("GET", dname, false);
   xhttp.overrideMimeType("text/xml; charset='utf-8'");
+  //xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhttp.send("");
   return xhttp.responseXML;
 }
@@ -46,18 +51,21 @@ function includeCSS()
     var css = document.createElement('link');
     css.type = 'text/css';
     css.rel = 'stylesheet';
-    css.href = path_to_gritttt + "widget.css";
+    css.href = ttrss_url + "widget.css";
     css.media = 'screen';
     head.appendChild(css);
 }
 
 /* make HTML and insert it */
-function displayRSS(feed_url, element_id)
+function displayRSS(feed_url, element_id, max_rows)
 {
   includeCSS();
   // get RSS via proxy to circumvent the browser sandbox
-  xml = loadXMLDoc(path_to_gritttt + 'proxy.php?url=' + encodeURIComponent(feed_url));
-  xsl = loadXMLDoc(path_to_gritttt + "rss2html.xslt"); 
+  xml = loadXMLDoc(ttrss_url + 'proxy.php?url=' + encodeURIComponent(feed_url));
+  xsl = loadXMLDoc(ttrss_url + "rss2html.xslt"); 
+  
+  if (max_rows === undefined) max_rows = 8;
+
   // code for IE
   if (window.ActiveXObject)
   {
@@ -68,6 +76,7 @@ function displayRSS(feed_url, element_id)
   else if (document.implementation && document.implementation.createDocument)
   {
     xsltProcessor = new XSLTProcessor();
+    xsltProcessor.setParameter(null, 'max_rows', max_rows);
     xsltProcessor.importStylesheet(xsl);
     
     html = xsltProcessor.transformToFragment(xml, document);
