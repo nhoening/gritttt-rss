@@ -22,13 +22,20 @@
             <xsl:otherwise>tt-odd</xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
+        <xsl:variable name="last-index">
+          <xsl:choose>
+            <xsl:when test="$max_rows &gt; last()"><xsl:value-of select="last()"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="$max_rows"/></xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
         <xsl:variable name="firstlast-class">
           <xsl:choose>
             <xsl:when test="position() = 1">tt-first</xsl:when>
-            <xsl:when test="position() = last()">tt-last</xsl:when>
+            <xsl:when test="position() = $last-index">tt-last</xsl:when>
             <xsl:otherwise></xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
+
         <div>
           <xsl:attribute name="class">
             tt-entry
