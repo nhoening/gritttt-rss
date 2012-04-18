@@ -16,10 +16,11 @@ function getHostname(str) {
 
 function show_share_form(overlay)
 {
-    var iframe_url = gritttt_url + "form.html";
+    var iframe_url = gritttt_url + "form.php";
     iframe_url += "?action=" + encodeURIComponent(gritttt_url +  "share.php");
     iframe_url += "&url=" + encodeURIComponent(location.href);
     iframe_url += "&title=" + encodeURIComponent(document.title);
+    iframe_url += "&ttrss_url=" + encodeURIComponent(ttrss_url);
     overlay.innerHTML = '<iframe frameborder="0" scrolling="no" name="' + box_id + '" id="' + box_id + '" src="' + iframe_url.replace('"', "'") + '" width="600px" height="200px"></iframe>';
 }
 
@@ -70,7 +71,11 @@ function show_overlay(show)
                     show_msg(overlay, 'Page successfully shared! Click <a href="" onclick="show_overlay(false);">here</a> to close.');
                 }
                 else if(e.data == 'login') {
-                    show_msg(overlay, 'Please log in to <a href="' + ttrss_host + '">your tt-rss reader</a>.');
+                    // should not happen - form.php should have caught this
+                    show_msg(overlay, 'Could not share, please log in to <a href="' + ttrss_url + '">your tt-rss reader</a>, and reload page.');
+                }
+                else if(e.data == 'reload-form') {
+                    show_share_form(document.getElementById(overlay_id));
                 }
                 else if(e.data.substring(0,7) == 'failure') {
                     alert('oops:' + e.data.substring(8));
