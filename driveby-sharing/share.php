@@ -11,11 +11,10 @@ $user_id = 1;  //admin is 1
 
 header('Content-Type: text/html; charset=utf-8');
 
-// Including some tt-rss libraries ...
-// if your tt-rss instance runs on a version < 1.5.10,
-// remove the 'includes' part of these paths.
-require_once("../../includes/functions.php");
-require_once("../../includes/sessions.php");
+// if your tt-rss instance runs on a version < 1.5.10
+// remove the 'includes'
+require_once("../../functions.php");
+require_once("../../sessions.php");
 
 $link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 init_connection($link);
@@ -30,10 +29,10 @@ if ($_SESSION["uid"] && validate_session($link)) {
         $c = $_POST['gritttt-comment'];
         // Make new entry in ttrss_entries, set (title, link, content) from request, Remember new-id 
         db_query($link, "INSERT into ttrss_entries (title, link, guid, date_entered, date_updated, updated) VALUES ('$t', '$url', '$uid', NOW(), NOW(), NOW());");
-        if (1 ==1) { // currently only support for MySQL, no postgres love :(
+        if (1 == 1) {
             $last_id = mysql_insert_id();
         } else {
-
+            // TODO: find ttrss_entry id for non-MySQL DBs (e.g. postgres)
         }
         // Make new entry in ttrss_user_entries
         db_query($link, "INSERT into ttrss_user_entries (ref_id, feed_id, owner_uid, note, published, unread) VALUES ($last_id, $feed_id, $user_id, '$c', 1, 0);");
