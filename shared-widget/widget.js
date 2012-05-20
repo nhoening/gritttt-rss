@@ -22,8 +22,7 @@ Note that here I added an (optional) number parameter which constrains the numbe
 */
 
 // The full URL to your tt-rss installation
-// e.g. 'http://www.nicolashoening.de/tt-rss'
-var ttrss_url = 'http://www.nicolashoening.de/tt-rss-test';
+var ttrss_url = 'http://www.example.com/tt-rss';
 
 ttrss_url = ttrss_url + "/gritttt/shared-widget/";
 

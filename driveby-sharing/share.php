@@ -1,7 +1,7 @@
 <?php
 /* 
  This script takes website details from the form and inserts 
- them into the tt-rss DB. Put this into the tt-rss directory.
+ them into the tt-rss DB.
 */
 
 // adapt these
