@@ -6,8 +6,8 @@
 
 // if your tt-rss instance runs on a version below 1.5.10
 // remove the 'includes'
-require_once("../../functions.php");
-require_once("../../sessions.php");
+require_once("../../includes/functions.php");
+require_once("../../includes/sessions.php");
 
 $link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 init_connection($link);
