@@ -13,7 +13,6 @@
 
   <div><xsl:value-of select="feed/title" /></div>
 
-  <!-- TODO: limit number of entries (configurable?) -->
   <xsl:for-each select="atom:feed/atom:entry">
     <xsl:if test="position() &lt;= $max_rows">
         <xsl:variable name="oddeven-class">

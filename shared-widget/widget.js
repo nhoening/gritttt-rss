@@ -21,8 +21,12 @@ jQuery(document).ready(function(){
 Note that here I added an (optional) number parameter which constrains the number of shown rows to 11 (per default it is 8).
 */
 
+// -- adapt this
 // The full URL to your tt-rss installation
+// The domain has to be the same as the domain on which this script is executed!
+// i.e. if you host tt-rss on a subdomain, you might need to specifiy the actual path from your domain 
 var ttrss_url = 'http://www.example.com/tt-rss';
+// -- end adapt
 
 ttrss_url = ttrss_url + "/gritttt/shared-widget/";
 
@@ -61,7 +65,7 @@ function displayRSS(feed_url, element_id, max_rows)
   includeCSS();
   // get RSS via proxy to circumvent the browser sandbox
   xml = loadXMLDoc(ttrss_url + 'proxy.php?url=' + encodeURIComponent(feed_url));
-  xsl = loadXMLDoc(ttrss_url + "rss2html.xslt"); 
+  xsl = loadXMLDoc(ttrss_url + 'rss2html.xslt'); 
   
   if (max_rows === undefined) max_rows = 8;
 
