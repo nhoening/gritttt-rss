@@ -19,6 +19,10 @@ require_once("../../includes/sessions.php");
 $link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 init_connection($link);
 
+if (1 == 1) { // if mysql
+    mysql_set_charset('utf8', $link);
+}
+
 $MSG = 'success';
 
 if ($_SESSION["uid"] && validate_session($link)) {

@@ -9,12 +9,15 @@
 require_once("../../includes/functions.php");
 require_once("../../includes/sessions.php");
 
+ini_set('default_charset', 'utf-8');
+
 $link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 init_connection($link);
 ?>
 
 <html>
   <head>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
       <link rel="stylesheet" type="text/css" href="form.css"/>
       <script type="text/javascript">
             function getParameterByName(name)
