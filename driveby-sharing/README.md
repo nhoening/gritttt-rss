@@ -6,14 +6,16 @@
 2. Adjust feed ID and user ID in `share.php`:<br/> 
    The feed ID is the ID of the feed you created in step 1. The user is the tt-rss user, and his ID is most likely `1`, if you log in with the user `admin`. That is the standard case, if you use a multi-user tt-rss, fill in the ID you use in that context. 
 
-3. In `dialog.js`, set the URL at which your tt-rss instance is reachable in the variable `ttrss_url`.
+3. In `share.php` and `form.php`, you need to make an adjustment to a library include path (see comment in file), but only if your tt-rss instance runs on a version below 1.5.10.
 
-4. Adjust the URL of your tt-rss instance in `bookmarklet.js`:<br/>
+4. In `dialog.js`, set the URL at which your tt-rss instance is reachable in the variable `ttrss_url`.
+
+5. Adjust the URL of your tt-rss instance in `bookmarklet.js`:<br/>
    Replace `http://www.example.com` with the URL at which your tt-rss instance is reachable.
 
-5. Put this directory on your webserver:<br/>
+6. Put this directory on your webserver:<br/>
    Within the folder of your tt-rss instance, first create a folder called `grittt` (if you have not got it already) and copy the `driveby-sharing` folder in there.
 
-6. Copy content of `bookmarklet.js` into a bookmark of your browser.
+7. Copy content of `bookmarklet.js` into a bookmark of your browser and give it a catchy name, for example `share in tt-rss`.
 
-7. Share!
+8. Share!
