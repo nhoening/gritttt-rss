@@ -6,10 +6,18 @@
 <xsl:output method="html"/>
 
 <xsl:param name="max_rows"/>
+<xsl:param name="ttrss_feed_url"/>
 
 
 <xsl:template match="/">
-  <h2>My public feed</h2>
+  <div id="tt-title">
+    <a id="tt-title-link">
+        <xsl:attribute name="href">
+            <xsl:value-of select="$ttrss_feed_url"/>
+        </xsl:attribute>
+        My public feed
+    </a>
+  </div>
 
   <div><xsl:value-of select="feed/title" /></div>
 

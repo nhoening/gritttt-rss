@@ -25,7 +25,7 @@ Note that here I added an (optional) number parameter which constrains the numbe
 // The full URL to your tt-rss installation
 // The domain has to be the same as the domain on which this script is executed!
 // i.e. if you host tt-rss on a subdomain, you might need to specifiy the actual path from your domain 
-var ttrss_url = 'http://www.example.com/tt-rss';
+var ttrss_url = 'http://www.nicolashoening.de/tt-rss';
 // -- end adapt
 
 ttrss_url = ttrss_url + "/gritttt/shared-widget/";
@@ -80,6 +80,7 @@ function displayRSS(feed_url, element_id, max_rows)
   {
     xsltProcessor = new XSLTProcessor();
     xsltProcessor.setParameter(null, 'max_rows', max_rows);
+    xsltProcessor.setParameter(null, 'ttrss_feed_url', feed_url);
     xsltProcessor.importStylesheet(xsl);
     
     html = xsltProcessor.transformToFragment(xml, document);
