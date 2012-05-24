@@ -60,7 +60,7 @@ if ($_SESSION["uid"] && validate_session($link)) {
 <? } else { ?>
         <!-- Tell user to log in first -->
         <div id="gritttt-msg">
-            Please log in to <a id="gritttt-ttrss-link" href="">your tt-rss reader</a>.<br/>
+            Please log in to <a id="gritttt-ttrss-link" href="" target="_blank">your tt-rss reader</a>.<br/>
             Then, click <a href="#" onclick="window.parent.postMessage('reload-form', '*');">here</a> to continue.
                 </div>
         <script type="text/javascript">
