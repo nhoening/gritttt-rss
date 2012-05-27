@@ -29,8 +29,8 @@ try:
 except:
     print 'Invalid ID (should be a positive number)'
     sys.exit(2)
-print "Please enter the ID of your gritttt-feed (You can create a new feed with the SQL in\
-the file 'create-gritttt-feed.sql'):"
+print "Please enter the ID of your gritttt-feed (You can create a new feed with the SQL in "\
+      "the file 'create-gritttt-feed.sql'):"
 feed_id = raw_input()
 try:
     feed_id = int(feed_id)
@@ -40,7 +40,8 @@ except:
     sys.exit(2)
 
 # which data to import
-print "Should we import shared articles (Y/n)? (then I expect you to have exported a file called shared-items.json ttfrom Google):"
+print "Should we import shared articles (Y/n)? (then I expect you to have exported a file "\
+      "called shared-items.json from Google):"
 do_shared = raw_input().lower()
 if not do_shared in ['', 'y', 'n']:
     print 'Invalid choice'
@@ -53,7 +54,8 @@ if do_shared in ['', 'y']:
 else:
     do_shared = False
 
-print "Should we import starred articles (Y/n)? (then I expect you to have exported a file called starred-items.json from Google):"
+print "Should we import starred articles (Y/n)? (then I expect you to have exported a file "\
+      "called starred-items.json from Google):"
 do_starred = raw_input().lower()
 if not do_starred in ['', 'y', 'n']:
     print 'Invalid choice'
@@ -102,7 +104,7 @@ def write_sql(items, shared, c):
         pub = datetime.fromtimestamp(item['published']).strftime('%Y-%m-%d %H-%M-%S')
 
         ttim.write("INSERT INTO ttrss_entries (guid, title, link, date_entered, date_updated, updated, content) VALUES \
-                    ('{g}', '{t}', '{l}', NOW(), NOW(), '{pub}', '{c}');\n"\
+                    ('{g}', '{t}', '{l}', '{pub}', '{pub}', '{pub}', '{c}');\n"\
                     .format(g='%s,imported:%f' % (s(link), time()),
                             t=s(title), l=s(link), pub=pub, c=s(content)))
         # copy user notes
@@ -118,21 +120,28 @@ def write_sql(items, shared, c):
 
 counter = 0
 
-if do_shared:
-    print "Reading in data from shared-items.json ..."
-    gex_im = open('shared-items.json', 'r')
-    gex = json.load(gex_im)
-    gex_im.close()
-    counter = write_sql(gex['items'], True, counter)
-
 if do_starred:
     print "Reading in data from starred-items.json ..."
     gex_im = open('starred-items.json', 'r')
     gex = json.load(gex_im)
     gex_im.close()
-    counter = write_sql(gex['items'], False, counter)
+    # we insert them in the order of date
+    items = gex['items']
+    items.reverse()
+    counter = write_sql(items, False, counter)
 
-ttim.write("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = {id}".format(id=feed_id));
+if do_shared:
+    print "Reading in data from shared-items.json ..."
+    gex_im = open('shared-items.json', 'r')
+    gex = json.load(gex_im)
+    gex_im.close()
+    # we insert them in the order of date
+    items = gex['items']
+    items.reverse()
+    counter = write_sql(items, True, counter)
+
+
+ttim.write("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = {id};".format(id=feed_id));
 
 ttim.close()
 

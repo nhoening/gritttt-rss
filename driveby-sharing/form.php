@@ -6,8 +6,10 @@
 
 // if your tt-rss instance runs on a version below 1.5.10
 // remove the 'includes'
-require_once("../../functions.php");
-require_once("../../sessions.php");
+require_once("../../includes/functions.php");
+require_once("../../includes/sessions.php");
+
+ini_set('default_charset', 'utf-8');
 
 $link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 init_connection($link);
@@ -15,6 +17,7 @@ init_connection($link);
 
 <html>
   <head>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
       <link rel="stylesheet" type="text/css" href="form.css"/>
       <script type="text/javascript">
             function getParameterByName(name)
@@ -57,7 +60,7 @@ if ($_SESSION["uid"] && validate_session($link)) {
 <? } else { ?>
         <!-- Tell user to log in first -->
         <div id="gritttt-msg">
-            Please log in to <a id="gritttt-ttrss-link" href="">your tt-rss reader</a>.<br/>
+            Please log in to <a id="gritttt-ttrss-link" href="" target="_blank">your tt-rss reader</a>.<br/>
             Then, click <a href="#" onclick="window.parent.postMessage('reload-form', '*');">here</a> to continue.
                 </div>
         <script type="text/javascript">

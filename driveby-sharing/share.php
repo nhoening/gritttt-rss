@@ -1,7 +1,7 @@
 <?php
 /* 
  This script takes website details from the form and inserts 
- them into the tt-rss DB. Put this into the tt-rss directory.
+ them into the tt-rss DB.
 */
 
 // adapt these
@@ -13,11 +13,15 @@ header('Content-Type: text/html; charset=utf-8');
 
 // if your tt-rss instance runs on a version < 1.5.10
 // remove the 'includes'
-require_once("../../functions.php");
-require_once("../../sessions.php");
+require_once("../../includes/functions.php");
+require_once("../../includes/sessions.php");
 
 $link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 init_connection($link);
+
+if (1 == 1) { // if mysql
+    mysql_set_charset('utf8', $link);
+}
 
 $MSG = 'success';
 
