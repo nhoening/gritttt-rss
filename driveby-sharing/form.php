@@ -34,6 +34,11 @@ init_connection($link);
     </script>
     </head>
   <body>
+	<div id="gritttt-logo">
+		<a href="http://gritttt-rss.nicolashoening.de/" target="_blank">
+			<img src="./gritttt-logo.png" alt="Go to Home of Gritttt" title="Go to Home of Gritttt"/>
+		</a>
+	</div>
 
 <?
 // Logged in?
@@ -41,11 +46,6 @@ if ($_SESSION["uid"] && validate_session($link)) {
 ?>
         <!-- Show form -->
 <form id="gritttt-form" method="post" action="">
-	<div id="gritttt-logo">
-		<a href="http://gritttt-rss.nicolashoening.de/" target="_blank">
-			<img src="./gritttt-logo.png" alt="Go to Home of Gritttt" title="Go to Home of Gritttt"/>
-		</a>
-	</div>
 	<div id="gritttt-heading">Share this page in your tt-rss:</div> 
 	<br/>
 	<input id="gritttt-url" name="gritttt-url" type="hidden" size="40" name="url"></input>
@@ -70,8 +70,8 @@ if ($_SESSION["uid"] && validate_session($link)) {
 <? } else { ?>
         <!-- Tell user to log in first -->
         <div id="gritttt-msg">
-            Please log in to <a id="gritttt-ttrss-link" href="" target="_blank">your tt-rss reader</a>.<br/>
-            Then, click <a href="#" onclick="window.parent.postMessage('reload-form', '*');">here</a> to continue.
+            <p>Please log in to <a id="gritttt-ttrss-link" href="" target="_blank">your tt-rss reader</a>.</p>
+            <p>Then, <a href="#" onclick="window.parent.postMessage('reload-form', '*');">click to continue</a>.</p>
                 </div>
         <script type="text/javascript">
             document.getElementById('gritttt-ttrss-link').href = getParameterByName('ttrss_url');

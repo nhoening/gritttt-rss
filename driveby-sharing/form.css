@@ -1,6 +1,19 @@
 body {
 	margin: 0;
 	padding: 0;
+	font-family: tahoma, arial, 'sans-serif';
+	font-size: 11pt;
+	color: #333333;
+}
+
+a {
+    color: #FEAE49;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover, a:focus, a:active {
+    text-decoration: underline;
 }
 
 #gritttt-form {
@@ -9,9 +22,6 @@ body {
     padding: 0 20px;
     background-color: none;
 	border: 1px solid #333333;
-	font-family: tahoma, arial, 'sans-serif';
-	font-size: 11pt;
-	color: #333333;
 }
 
 #gritttt-logo {
