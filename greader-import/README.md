@@ -7,7 +7,7 @@ It probably is also a good idea to stop feed updates while you
 are doing this. I am not responsible for data loss or corruption.
 
 2. You need to export your shared/starred items from your Google account.
-Go to `Google Reader -> settings`, and download the shared/starred items in "Reader JSON"-format. Store the export in this directory. The files should be 
+Go to `Google Reader -> settings -> Import/Export`, and download the shared/starred items in `Reader JSON`-format (*not* the `JSON Activity Stream` format). Store the export in this directory. The files should be 
 called `shared-items.json` and `starred-items.json`.
 
 3. Make sure a dedicated feed exists in your tt-rss. You can insert it via executing 
