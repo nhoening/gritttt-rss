@@ -65,7 +65,7 @@ function show_overlay(show)
         eventer(messageEvent,function(e) {
             if (e.origin == 'http://' + getHostname(gritttt_url)) {
                 if (e.data == 'success') {
-                    show_msg(overlay, 'Page successfully shared! Click <a href="" onclick="show_overlay(false);">here</a> to close.');
+                    show_msg(overlay, 'Page successfully shared! Click anywhere to close.');
                 }
                 else if(e.data == 'login') {
                     // should not happen - form.php should have caught this
