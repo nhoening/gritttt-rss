@@ -59,8 +59,14 @@ function displayRSS(feed_url, element_id, max_rows)
 {
   includeCSS();
   // get RSS via proxy to circumvent the browser sandbox
-  xml = loadXMLDoc(ttrss_url + 'proxy.php?url=' + encodeURIComponent(feed_url));
-  xsl = loadXMLDoc(ttrss_url + 'rss2html.xslt'); 
+  // we also do a little trick to be sure that we use the same host that the current
+  // website uses (i.e. if www.host.com and host.com are both leading here, we create
+  // consistency by using here the host string that was used in the request, rather 
+  // than the host string from the configuration. 
+  var uri = parseUri(ttrss_url);
+  var ttrss_url_req = ttrss_url.replace(uri['host'], window.location.hostname);
+  xml = loadXMLDoc(ttrss_url_req + 'proxy.php?url=' + encodeURIComponent(feed_url));
+  xsl = loadXMLDoc(ttrss_url_req + 'rss2html.xslt'); 
   
   if (max_rows === undefined) max_rows = 8;
 
@@ -82,3 +88,37 @@ function displayRSS(feed_url, element_id, max_rows)
     document.getElementById(element_id).appendChild(html);
   }
 }
+
+
+// parseUri 1.2.2
+// (c) Steven Levithan <stevenlevithan.com>
+// MIT License
+
+function parseUri (str) {
+    var o   = parseUri.options,
+        m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+        uri = {},
+        i   = 14;
+
+    while (i--) uri[o.key[i]] = m[i] || "";
+
+    uri[o.q.name] = {};
+    uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+        if ($1) uri[o.q.name][$1] = $2;
+    });
+
+    return uri;
+};
+
+parseUri.options = {
+    strictMode: false,
+    key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+    q:   {
+        name:   "queryKey",
+        parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+    },
+    parser: {
+        strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+        loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+    }
+};
