@@ -4,10 +4,12 @@
  them into the tt-rss DB.
 */
 
-// adapt these
-$feed_id = 174;
-$user_id = 1;  //admin is 1
-// end adapt
+// read config
+$datastring = file_get_contents('config.js');
+preg_match("/config[ ]?=[ ]?\{([^\;]+)\\;/", $datastring, $matches);
+$config = json_decode('{' . $matches[1], true);
+$feed_id = $config['feed_id'];
+$user_id = $config['user_id'];
 
 header('Content-Type: text/html; charset=utf-8');
 

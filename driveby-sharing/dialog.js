@@ -1,12 +1,9 @@
-// adapt this
-var ttrss_url = 'http://www.example.com/tt-rss';
-// end adapt
+var ttrss_url = config['ttrss_url'];
+var gritttt_url = ttrss_url + "/gritttt/driveby-sharing/";
 
 var overlay_id = 'gritttt-overlay';
 var box_id = 'gritttt-box';
 var msg_id = 'gritttt-msg';
-
-var gritttt_url = ttrss_url + "/gritttt/driveby-sharing/";
 
 
 function getHostname(str) {

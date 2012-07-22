@@ -1,0 +1,5 @@
+var config = {
+    "ttrss_url": "http://www.example.com/tt-rss",
+    "feed_id": 178,
+    "user_id": 1
+    };

@@ -1,0 +1,3 @@
+var config = {
+    "ttrss_url": "http://www.example.com/tt-rss"
+    };
