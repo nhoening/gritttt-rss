@@ -5,10 +5,10 @@
 
 2. Create a configuration file `config.js` as a copy of `config.js.template`.
    Enter your settings in `config.js`:<br/> 
-   As `ttrss_url`, set the URL at which your tt-rss instance is reachable in the variable `ttrss_url`.
+   As `ttrss_url`, set the URL at which your tt-rss instance is reachable in the variable `ttrss_url`.<br/>
    The feed ID (`feed_id`) is the ID of the feed you created in step 1. For `user_id`, the user is the tt-rss user, and his ID is most likely `1`, if you log in with the user `admin`.
-   That is the standard case - if you run a multi-user tt-rss, fill in the ID
-   you want to use in that context of sharing. 
+   That is the standard case - if you run a multi-user tt-rss, fill in the ID you want to use in that context of sharing.<br/>
+   Change the next setting to `false` if your tt-rss instance has a version lower than `1.5.10.` (you can see the version on the login screen).
 
 3. In `share.php` and `form.php`, you need to make an adjustment to a library include path (see comment in file), but only if your tt-rss instance runs on a version below 1.5.10.
 

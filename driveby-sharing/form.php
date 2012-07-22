@@ -4,10 +4,19 @@
  Shows a form to display in the iframe, which submits to share.php with details about the page.
 */
 
-// if your tt-rss instance runs on a version below 1.5.10
-// remove the 'includes'
-require_once("../../includes/functions.php");
-require_once("../../includes/sessions.php");
+// read config
+$datastring = file_get_contents('config.js');
+preg_match("/config[ ]?=[ ]?\{([^\;]+)\\;/", $datastring, $matches);
+$config = json_decode('{' . $matches[1], true);
+$ttrss_above_1510 = $config['ttrss_version_above_1.5.10'];
+
+if ($ttrss_above_1510) {
+    require_once("../../includes/functions.php");
+    require_once("../../includes/sessions.php");
+} else {
+    require_once("../../functions.php");
+    require_once("../../sessions.php");
+}
 
 ini_set('default_charset', 'utf-8');
 
@@ -34,34 +43,24 @@ init_connection($link);
     </script>
     </head>
   <body>
-	<div id="gritttt-logo">
-		<a href="http://gritttt-rss.nicolashoening.de/" target="_blank">
-			<img src="./gritttt-logo.png" alt="Go to Home of Gritttt" title="Go to Home of Gritttt"/>
-		</a>
-	</div>
 
 <?
 // Logged in?
 if ($_SESSION["uid"] && validate_session($link)) {
 ?>
         <!-- Show form -->
-<form id="gritttt-form" method="post" action="">
-	<div id="gritttt-heading">Share this page in your tt-rss:</div> 
-	<br/>
-	<input id="gritttt-url" name="gritttt-url" type="hidden" size="40" name="url"></input>
-	<div id="gritttt-row-title">
-		<label for="gritttt-title">Title:</label>
-		<input id="gritttt-title" name="gritttt-title" type="text" size="60" name="title"></input>
-	</div>
-	
-	<div id="gritttt-row-comment">
-		<label for="gritttt-comment">Comment:</label>
-		<textarea rows="2" cols="40" id="gritttt-comment" name="gritttt-comment"></textarea>
-	</div>
-	<div id="gritttt-row-submit">
-		<input id="gritttt-submit" type="submit" name="shareit" value="Share"/>
-	</div>
-</form>
+        <form id="gritttt-form" method="post" action="">
+            <div id="gritttt-heading">Share this page in your tt-rss:</div> 
+            <br/>
+            <input id="gritttt-url" name="gritttt-url" type="hidden" size="40" name="url"></input>
+            <label for="gritttt-title">Title:</label>
+            <input id="gritttt-title" name="gritttt-title" type="text" size="60" name="title"></input>
+            <br/>
+            <label for="gritttt-comment">Comment:</label>
+            <textarea rows="2" cols="40" id="gritttt-comment" name="gritttt-comment"></textarea>
+            <br/>
+            <input id="gritttt-submit" type="submit" name="shareit" value="Share"/>
+        </form>
         <script type="text/javascript">
             document.getElementById('gritttt-form').action = getParameterByName('action');
             document.getElementById('gritttt-url').value = getParameterByName('url');
@@ -70,9 +69,9 @@ if ($_SESSION["uid"] && validate_session($link)) {
 <? } else { ?>
         <!-- Tell user to log in first -->
         <div id="gritttt-msg">
-            <p>Please log in to <a id="gritttt-ttrss-link" href="" target="_blank">your tt-rss reader</a>.</p>
-            <p>Then, <a href="#" onclick="window.parent.postMessage('reload-form', '*');">click to continue</a>.</p>
-                </div>
+            Please log in to <a id="gritttt-ttrss-link" href="" target="_blank">your tt-rss reader</a>.<br/>
+            Then, click <a href="#" onclick="window.parent.postMessage('reload-form', '*');">here</a> to continue.
+        </div>
         <script type="text/javascript">
             document.getElementById('gritttt-ttrss-link').href = getParameterByName('ttrss_url');
         </script>
