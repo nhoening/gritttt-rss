@@ -11,8 +11,9 @@ $config = json_decode('{' . $matches[1], true);
 $ttrss_above_1510 = $config['ttrss_version_above_1.5.10'];
 
 if ($ttrss_above_1510) {
-    require_once("../../includes/functions.php");
-    require_once("../../includes/sessions.php");
+    set_include_path(get_include_path() . PATH_SEPARATOR . "../..");
+    require_once("../../include/functions.php");
+    require_once("../../include/sessions.php");
 } else {
     require_once("../../functions.php");
     require_once("../../sessions.php");
