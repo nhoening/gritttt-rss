@@ -1,5 +1,5 @@
-var ttrss_url = config['ttrss_url'];
-var gritttt_url = ttrss_url + "/gritttt/driveby-sharing/";
+var gritttt_url = config['gritttt_url'];
+var path_to_ttrss = config['path_to_ttrss'];
 
 var overlay_id = 'gritttt-overlay';
 var box_id = 'gritttt-box';
@@ -13,11 +13,10 @@ function getHostname(str) {
 
 function show_share_form(overlay)
 {
-    var iframe_url = gritttt_url + "form.php";
-    iframe_url += "?action=" + encodeURIComponent(gritttt_url +  "share.php");
+    var iframe_url = gritttt_url + "/form.php";
+    iframe_url += "?action=" + encodeURIComponent(gritttt_url +  "/share.php");
     iframe_url += "&url=" + encodeURIComponent(location.href);
     iframe_url += "&title=" + encodeURIComponent(document.title);
-    iframe_url += "&ttrss_url=" + encodeURIComponent(ttrss_url);
     overlay.innerHTML = '<iframe frameborder="0" scrolling="no" name="' + box_id + '" id="' + box_id + '" src="' + iframe_url.replace('"', "'") + '" width="600px" height="200px"></iframe>';
 }
 
@@ -69,7 +68,7 @@ function show_overlay(show)
                 }
                 else if(e.data == 'login') {
                     // should not happen - form.php should have caught this
-                    show_msg(overlay, 'Could not share, please log in to <a href="' + ttrss_url + '">your tt-rss reader</a>, and reload page.');
+                    show_msg(overlay, 'Could not share, please log in to <a href="' + gritttt_url + '/' + path_to_ttrss + '">your tt-rss reader</a>, and reload page.');
                 }
                 else if(e.data == 'reload-form') {
                     show_share_form(document.getElementById(overlay_id));

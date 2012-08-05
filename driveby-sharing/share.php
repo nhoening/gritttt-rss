@@ -10,17 +10,17 @@ preg_match("/config[ ]?=[ ]?\{([^\;]+)\\;/", $datastring, $matches);
 $config = json_decode('{' . $matches[1], true);
 $feed_id = $config['feed_id'];
 $user_id = $config['user_id'];
+$path_to_ttrss = $config['path_to_ttrss'];
 $ttrss_above_1510 = $config['ttrss_version_above_1.5.10'];
 
 header('Content-Type: text/html; charset=utf-8');
-
 if ($ttrss_above_1510) {
-    set_include_path(get_include_path() . PATH_SEPARATOR . "../..");
-    require_once("../../include/functions.php");
-    require_once("../../include/sessions.php");
+    set_include_path(get_include_path() . PATH_SEPARATOR . $path_to_ttrss);
+    require_once($path_to_ttrss . "/include/functions.php");
+    require_once($path_to_ttrss . "/include/sessions.php");
 } else {
-    require_once("../../functions.php");
-    require_once("../../sessions.php");
+    require_once($path_to_ttrss . "/functions.php");
+    require_once($path_to_ttrss . "/sessions.php");
 }
 
 $link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);

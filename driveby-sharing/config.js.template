@@ -1,5 +1,6 @@
 var config = {
-    "ttrss_url": "http://www.example.com/tt-rss",
+    "gritttt_url": "http://www.example.com/gritttt/driveby-sharing",
+    "path_to_ttrss": "../../tt-rss",
     "feed_id": 183,
     "user_id": 1,
     "ttrss_version_above_1.5.10": true

@@ -69,7 +69,6 @@ function scriptPath() {
     if (path.substring(0,7) !== 'http://') {
         path = path + window.location.hostname + window.location.pathname;
     }
-    console.log(path);
     return path;
 }
 
