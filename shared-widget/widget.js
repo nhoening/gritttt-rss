@@ -4,7 +4,6 @@ Then, it inserts it into an HTML element on your website.
 
 Include it in your HTML head:
 
-<script type="text/javascript" src="path/to/config.js"></script>
 <script type="text/javascript" src="path/to/widget.js"></script>
 
 The script might be called on load, this can be done in the body tag:
@@ -22,9 +21,7 @@ jQuery(document).ready(function(){
 Note that here I added an (optional) number parameter which constrains the number of shown rows to 11 (per default it is 8).
 */
 
-var ttrss_url = config['ttrss_url'];
-ttrss_url = ttrss_url + "/gritttt/shared-widget/";
-
+/* load an XML document and return the resulting object */
 function loadXMLDoc(dname)
 {
   if (window.XMLHttpRequest)
@@ -42,31 +39,48 @@ function loadXMLDoc(dname)
   return xhttp.responseXML;
 }
 
-/* reference our CSS styling */
+/* reference custom CSS styling */
 function includeCSS()
 {
     var head = document.getElementsByTagName("head")[0];
     var css = document.createElement('link');
     css.type = 'text/css';
     css.rel = 'stylesheet';
-    css.href = ttrss_url + "widget.css";
+    css.href = scriptPath() + "widget.css";
     css.media = 'screen';
     head.appendChild(css);
 }
 
-/* make HTML and insert it */
+/* get Script path as set in the head for this script (widget.js)
+   see http://www.bencarpenter.co.uk/javascript-path-to-the-current-script
+*/
+function scriptPath() {    
+    var scripts = document.getElementsByTagName('SCRIPT');
+    var path = '';
+    if(scripts && scripts.length>0) {
+        for(var i in scripts) {
+            if(scripts[i].src && scripts[i].src.match(/widget\.js$/)) {
+                path = scripts[i].src.replace(/(.*)widget\.js$/, '$1');
+            }
+        }
+    }
+    // nh: making sure path is absolute (FF makes relative paths absolute on it's own,
+    //     not sure about others)
+    if (path.substring(0,7) !== 'http://') {
+        path = path + window.location.hostname + window.location.pathname;
+    }
+    console.log(path);
+    return path;
+}
+
+/* create the HTML and insert it */
 function displayRSS(feed_url, element_id, max_rows)
 {
   includeCSS();
   // get RSS via proxy to circumvent the browser sandbox
-  // we also do a little trick to be sure that we use the same host that the current
-  // website uses (i.e. if www.host.com and host.com are both leading here, we create
-  // consistency by using here the host string that was used in the request, rather 
-  // than the host string from the configuration. 
-  var uri = parseUri(ttrss_url);
-  var ttrss_url_req = ttrss_url.replace(uri['host'], window.location.hostname);
-  xml = loadXMLDoc(ttrss_url_req + 'proxy.php?url=' + encodeURIComponent(feed_url));
-  xsl = loadXMLDoc(ttrss_url_req + 'rss2html.xslt'); 
+  var path2here = scriptPath();
+  xml = loadXMLDoc(path2here + 'proxy.php?url=' + encodeURIComponent(feed_url));
+  xsl = loadXMLDoc(path2here + 'rss2html.xslt'); 
   
   if (max_rows === undefined) max_rows = 8;
 
@@ -88,37 +102,3 @@ function displayRSS(feed_url, element_id, max_rows)
     document.getElementById(element_id).appendChild(html);
   }
 }
-
-
-// parseUri 1.2.2
-// (c) Steven Levithan <stevenlevithan.com>
-// MIT License
-
-function parseUri (str) {
-    var o   = parseUri.options,
-        m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
-        uri = {},
-        i   = 14;
-
-    while (i--) uri[o.key[i]] = m[i] || "";
-
-    uri[o.q.name] = {};
-    uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
-        if ($1) uri[o.q.name][$1] = $2;
-    });
-
-    return uri;
-};
-
-parseUri.options = {
-    strictMode: false,
-    key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
-    q:   {
-        name:   "queryKey",
-        parser: /(?:^|&)([^&=]*)=?([^&]*)/g
-    },
-    parser: {
-        strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-        loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
-    }
-};
