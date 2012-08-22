@@ -39,34 +39,34 @@ init_connection($link);
 // Logged in?
 if ($_SESSION["uid"] && validate_session($link)) {
 ?>
-        <!-- Show form -->
-<form id="gritttt-form" method="post" action="">
-	<div id="gritttt-logo">
-		<a href="http://gritttt-rss.nicolashoening.de/" target="_blank">
-			<img src="./gritttt-logo.png" alt="Go to Home of Gritttt" title="Go to Home of Gritttt"/>
-		</a>
-	</div>
-	<div id="gritttt-heading">Share this page in your tt-rss:</div> 
-	<br/>
-	<input id="gritttt-url" name="gritttt-url" type="hidden" size="40" name="url"></input>
-	<div id="gritttt-row-title">
-		<label for="gritttt-title">Title:</label>
-		<input id="gritttt-title" name="gritttt-title" type="text" size="60" name="title"></input>
-	</div>
-	
-	<div id="gritttt-row-comment">
-		<label for="gritttt-comment">Comment:</label>
-		<textarea rows="2" cols="40" id="gritttt-comment" name="gritttt-comment"></textarea>
-	</div>
-	<div id="gritttt-row-submit">
-		<input id="gritttt-submit" type="submit" name="shareit" value="Share"/>
-	</div>
-</form>
-        <script type="text/javascript">
-            document.getElementById('gritttt-form').action = getParameterByName('action');
-            document.getElementById('gritttt-url').value = getParameterByName('url');
-            document.getElementById('gritttt-title').value = getParameterByName('title');
-        </script>
+    <!-- Show form -->
+    <form id="gritttt-form" method="post" action="">
+        <div id="gritttt-logo">
+            <a href="http://gritttt-rss.nicolashoening.de/" target="_blank">
+                <img src="./gritttt-logo.png" alt="Go to Home of Gritttt" title="Go to Home of Gritttt"/>
+            </a>
+        </div>
+        <div id="gritttt-heading">Share this page in your tt-rss:</div> 
+        <br/>
+        <input id="gritttt-url" name="gritttt-url" type="hidden" size="40" name="url"></input>
+        <div id="gritttt-row-title">
+            <label for="gritttt-title">Title:</label>
+            <input id="gritttt-title" name="gritttt-title" type="text" size="60" name="title"></input>
+        </div>
+
+        <div id="gritttt-row-comment">
+            <label for="gritttt-comment">Comment:</label>
+            <textarea rows="2" cols="40" id="gritttt-comment" name="gritttt-comment"></textarea>
+        </div>
+        <div id="gritttt-row-submit">
+            <input id="gritttt-submit" type="submit" name="shareit" value="Share"/>
+        </div>
+    </form>
+    <script type="text/javascript">
+        document.getElementById('gritttt-form').action = getParameterByName('action');
+        document.getElementById('gritttt-url').value = getParameterByName('url');
+        document.getElementById('gritttt-title').value = getParameterByName('title');
+    </script>
 <? } else { ?>
         <!-- Tell user to log in first -->
         <div id="gritttt-msg">
