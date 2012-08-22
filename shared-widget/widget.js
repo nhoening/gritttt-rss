@@ -21,15 +21,7 @@ jQuery(document).ready(function(){
 Note that here I added an (optional) number parameter which constrains the number of shown rows to 11 (per default it is 8).
 */
 
-// -- adapt this
-// The full URL to your tt-rss installation
-// The domain has to be the same as the domain on which this script is executed!
-// i.e. if you host tt-rss on a subdomain, you might need to specifiy the actual path from your domain 
-var ttrss_url = 'http://www.nicolashoening.de/tt-rss';
-// -- end adapt
-
-ttrss_url = ttrss_url + "/gritttt/shared-widget/";
-
+/* load an XML document and return the resulting object */
 function loadXMLDoc(dname)
 {
   if (window.XMLHttpRequest)
@@ -47,25 +39,47 @@ function loadXMLDoc(dname)
   return xhttp.responseXML;
 }
 
-/* reference our CSS styling */
+/* reference custom CSS styling */
 function includeCSS()
 {
     var head = document.getElementsByTagName("head")[0];
     var css = document.createElement('link');
     css.type = 'text/css';
     css.rel = 'stylesheet';
-    css.href = ttrss_url + "widget.css";
+    css.href = scriptPath() + "widget.css";
     css.media = 'screen';
     head.appendChild(css);
 }
 
-/* make HTML and insert it */
+/* get Script path as set in the head for this script (widget.js)
+   see http://www.bencarpenter.co.uk/javascript-path-to-the-current-script
+*/
+function scriptPath() {    
+    var scripts = document.getElementsByTagName('SCRIPT');
+    var path = '';
+    if(scripts && scripts.length>0) {
+        for(var i in scripts) {
+            if(scripts[i].src && scripts[i].src.match(/widget\.js$/)) {
+                path = scripts[i].src.replace(/(.*)widget\.js$/, '$1');
+            }
+        }
+    }
+    // nh: making sure path is absolute (FF makes relative paths absolute on it's own,
+    //     not sure about others)
+    if (path.substring(0,7) !== 'http://') {
+        path = path + window.location.hostname + window.location.pathname;
+    }
+    return path;
+}
+
+/* create the HTML and insert it */
 function displayRSS(feed_url, element_id, max_rows)
 {
   includeCSS();
   // get RSS via proxy to circumvent the browser sandbox
-  xml = loadXMLDoc(ttrss_url + 'proxy.php?url=' + encodeURIComponent(feed_url));
-  xsl = loadXMLDoc(ttrss_url + 'rss2html.xslt'); 
+  var path2here = scriptPath();
+  xml = loadXMLDoc(path2here + 'proxy.php?url=' + encodeURIComponent(feed_url));
+  xsl = loadXMLDoc(path2here + 'rss2html.xslt'); 
   
   if (max_rows === undefined) max_rows = 8;
 
