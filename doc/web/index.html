@@ -16,11 +16,19 @@
 <div id="container">
 	<div id="header">
 		<img src="./style/logo.png" alt="gritttt-rss logo"/>
-		<h1 class="slogan">if Google amputates, we transplant!</h1>
+    <h1 class="slogan">if Google amputates, we transplant!</h1>
 	</div>
 	
-	<div id="content">
-		<p>In late 2011 Google »integrated« several of its Reader's features into GooglePlus. Those features became useless after what we feel was an amputation of vital parts. We mainly missed the sharing goodness and as it happened, we were looking for Google alternatives anyway at that time.
+  <div id="content">
+    <div id="teaser">
+      <em>
+        The more I think about it, the more I believe that the links I bookmark everyday are an important dimension of my online life.
+        <br/>
+        They're mine to keep.
+      </em>
+    </div>
+
+    <p>In late 2011 Google »integrated« several of its Reader's features into GooglePlus. Those features became useless after what we feel was an amputation of vital parts. We mainly missed the sharing goodness and as it happened, we were looking for Google alternatives anyway at that time.
 		</p>
 
         <div id="screenshot-driveby"> 
@@ -30,7 +38,7 @@
         </div>
 
 		<p>
-		To replace the core functionality, we settled with the open-source feed reader <a href="http://tt-rss.org/">tiny, tiny rss</a> (which is neither <i>tiny</i> nor <i>tiny, tiny</i> by the way but rather great), in short: <i>tt-rss</i>. Even though it exceeds Google Reader in some aspects (<a href="http://www.nicolashoening.de?blog&nr=115">yay, self-hosting and open source!</a>), for us it lacks a few neat features, too. The things we miss and are about to (re-)build are:</p>
+		To replace the core functionality, we settled with the open-source feed reader <a href="http://tt-rss.org/">tiny, tiny rss</a> (which is neither <i>tiny</i> nor <i>tiny, tiny</i> by the way, but rather great), in short: <i>tt-rss</i>. Even though it exceeds Google Reader in some aspects (<a href="http://www.nicolashoening.de?blog&nr=115">yay, self-hosting and open source!</a>), for us it lacks a few neat features, too. The things we miss and are about to (re-)build are:</p>
 		<div id="features">
 			<div class="item"> 
 				<p class="no">1</p>
@@ -80,10 +88,30 @@
 		<span class="alert">t</span>iny, 
 		<span class="alert">t</span>iny 
 		<span class="alert">rss</span>,	which you can <a href="https://github.com/nhoening/gritttt-rss">find and follow on github</a>.
-                There, you'll also find installation instructions and examples. Let <a href="mailto:iam@nicolashoening.de">Nic</a> know what you think.
+    There, you'll also find installation instructions and examples. 
+    We hope you find it useful and enjoy it, too.
+    Let <a href="mailto:iam@nicolashoening.de">Nic</a> know what you think or fork on github.
 		 	</p>
 
 	</div>
+
+  <div id="addendum">
+    <h3>Where to go next with this?</h3>
+    <p>Fundamentally, <i>gritttt-rss</i> allows a user to keep a list of their bookmarked links. (S)he can also share them via RSS and a widget, but 
+    collecting bookmarklets is the primary functionality:</p>
+    <em>The more I think about it, the more I believe that the links I bookmark everyday are an important dimension of my online life. I bookmark a couple links everyday,
+    and years later I can look back and understand what I was interested in during certain times.</em>
+    <p>Unlike online services like <a href="http://del.icio.us">Delicious</a> or <a href="http://pinboard.in">Pinboard</a>, however, the user hosts the list
+    of bookmarked links him- or herself - (s)he really owns the data. And the method (the <i> gritttt-rss</i> code) is open-source.</p>
+    <p>To make <i>gritttt-rss</i> work, we have used <i>tt-rss</i> as the vehicle of choice. It hosts the list of bookmarked links in its database and via its
+    RSS-subscriptions, it provides a very convenient method to bookmark links (via sharing or starring). Basically, we only added the feature to share any other website 
+    you're browsing on. However, <a href="https://github.com/nhoening/gritttt-rss/issues?milestone=2"><i>gritttt-rss</i> could also be independent of <i>tt-rss</i></a> - 
+    it could do its work of building up a self-hosted list of bookmarks using other software (e.g. a different RSS Reader) as vehicle, 
+    or even write only to an archive of plain RSS files.</p>
+    <p>This is just something that is on our minds now. As it stands, <i>gritttt-rss</i> is working very pleasantly for us and we already keep track of what has been
+    important to us every day :)</p>
+  </div>
+
 
     <script src="lightbox/js/jquery-1.7.2.min.js"></script>
     <script src="lightbox/js/lightbox.js"></script>

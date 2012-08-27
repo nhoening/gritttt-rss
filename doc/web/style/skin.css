@@ -72,13 +72,19 @@ a:active {
 	margin-top: 0px; 
 	margin-left: -5px;}
 
-#content #overview  { 
+#content #overview, #screenshot-driveby  { 
     padding-left: 100px;
     padding-right: 100px;}
 
 #content #overview-description  { 
     padding-top: 50px;
     padding-bottom: 50px;}
+
+#teaser {
+  padding-left: 150px;
+  width: 450px;
+  text-align: center;
+}
 
 .float-stopper {
 	clear: left;}
@@ -87,3 +93,7 @@ a:active {
 	font-weight: bold;
 	color: #1a9d00;
 	font-size:1.1em;}
+
+#addendum {
+  margin-top: 120px;
+}
