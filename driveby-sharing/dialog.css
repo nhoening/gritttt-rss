@@ -15,7 +15,8 @@
     background-color: white;
 }
 
-#gritttt-msg{
+#gritttt-msg {
+    font-family: freesans, verdana, tahoma, sans serif;
     width: 570px;
     height: 200px;
     padding: 20px;
