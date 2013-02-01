@@ -34,10 +34,10 @@ $MSG = 'success';
 
 if ($_SESSION["uid"] && validate_session($link)) {
     try{
-        $t = $_POST['gritttt-title'];
-        $url = $_POST['gritttt-url'];
+        $t = mysqli_real_escape_string($_POST['gritttt-title']);
+        $url = mysqli_real_escape_string($_POST['gritttt-url']);
         $uid = $url.',imported:'.time();
-        $c = $_POST['gritttt-comment'];
+        $c = mysqli_real_escape_string($_POST['gritttt-comment']);
         // Make new entry in ttrss_entries, set (title, link, content) from request, Remember new-id 
         db_query($link, "INSERT into ttrss_entries (title, link, guid, date_entered, date_updated, updated) VALUES ('$t', '$url', '$uid', NOW(), NOW(), NOW());");
         if (1 == 1) {
