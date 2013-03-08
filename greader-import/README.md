@@ -23,4 +23,4 @@ it asks for them, and decide if you want shared and/or starred items. You should
 2. Import the resulting SQL in `gritttt-import.sql` into your tt-rss database
 (via some import functionality, e.g. with phpMyAdmin). 
 
-Note: when importing a large the gritttt-import.sql-file, phpMyAdmin might by default abort after a while but should offer to resume. Depending on file size, multiple operations might be necessary, so read carefully what phpMyAdmin is telling you!
+Note: when importing a large file with SQL statements (and yours might already be pretty large), phpMyAdmin might by default abort after a while but should offer to resume. Depending on file size, multiple operations might be necessary, so read carefully what phpMyAdmin is telling you!
