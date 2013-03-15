@@ -116,16 +116,16 @@ def write_sql(items, shared, c):
         # updated is when feed item was published, make nice SQL date
         pub = datetime.fromtimestamp(item['published']).strftime('%Y-%m-%d %H-%M-%S')
 
-        ttim.write("INSERT INTO ttrss_entries (guid, title, link, date_entered, date_updated, updated, content) VALUES \
-                    ('{g}', '{t}', '{l}', '{pub}', '{pub}', '{pub}', '{c}');\n"\
+        ttim.write("INSERT INTO ttrss_entries (guid, title, link, date_entered, date_updated, updated, content, content_hash) VALUES \
+                    ('{g}', '{t}', '{l}', '{pub}', '{pub}', '{pub}', '{c}', '');\n"\
                     .format(g='%s,imported:%f' % (s(link), time()),
                             t=s(title), l=s(link), pub=pub, c=s(content)))
         # copy user notes
         note = ''
         if len(item['annotations']) > 0:
             note = item['annotations'][0]['content']
-        ttim.write("INSERT INTO ttrss_user_entries (ref_id, feed_id, owner_uid, published, marked,  note, unread) \
-                    SELECT max(id), {fid}, {oid}, {pub}, {mar}, '{n}', 0 FROM ttrss_entries;\n\n"\
+        ttim.write("INSERT INTO ttrss_user_entries (label_cache, uuid, tag_cache, ref_id, feed_id, owner_uid, published, marked,  note, unread) \
+                    SELECT '', '', '', max(id), {fid}, {oid}, {pub}, {mar}, '{n}', 0 FROM ttrss_entries;\n\n"\
                     .format(fid=feed_id , oid=owner_uid, pub=int(shared), mar=int(not shared), n=s(note)))
         c += 1
     return c
