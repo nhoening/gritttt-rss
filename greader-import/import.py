@@ -42,29 +42,29 @@ except:
 
 # which data to import
 print "Should we import shared articles (Y/n)? (then I expect you to have exported a file "\
-      "called shared-items.json from Google):"
+      "called shared.json from Google):"
 do_shared = raw_input().lower()
 if not do_shared in ['', 'y', 'n']:
     print 'Invalid choice'
     sys.exit(2)
 if do_shared in ['', 'y']:
     do_shared = True
-    if not os.path.exists('shared-items.json'):
-        print 'Cannot find the file shared-items.json ...'
+    if not os.path.exists('shared.json'):
+        print 'Cannot find the file shared.json ...'
         sys.exit(2)
 else:
     do_shared = False
 
 print "Should we import starred articles (Y/n)? (then I expect you to have exported a file "\
-      "called starred-items.json from Google):"
+      "called starred.json from Google):"
 do_starred = raw_input().lower()
 if not do_starred in ['', 'y', 'n']:
     print 'Invalid choice'
     sys.exit(2)
 if do_starred in ['', 'y']:
     do_starred = True
-    if not os.path.exists('starred-items.json'):
-        print 'Cannot find the file starred-items.json ...'
+    if not os.path.exists('starred.json'):
+        print 'Cannot find the file starred.json ...'
         sys.exit(2)
 else:
     do_starred = False
@@ -90,6 +90,10 @@ def s(unicode_str):
 def write_sql(items, shared, c):
     for item in items:
         # link
+        if 'alternate' not in item:
+            print('Could not import item with id {}. It does not seem to have'\
+                  ' any href-inforamtion.'.format(item['id']))
+            continue
         link = item['alternate'][0]['href']
         # title, or just link
         if item.has_key('title'):
@@ -122,8 +126,8 @@ def write_sql(items, shared, c):
 counter = 0
 
 if do_starred:
-    print "Reading in data from starred-items.json ..."
-    gex_im = open('starred-items.json', 'r')
+    print "Reading in data from starred.json ..."
+    gex_im = open('starred.json', 'r')
     gex = json.load(gex_im)
     gex_im.close()
     # we insert them in the order of date
@@ -132,8 +136,8 @@ if do_starred:
     counter = write_sql(items, False, counter)
 
 if do_shared:
-    print "Reading in data from shared-items.json ..."
-    gex_im = open('shared-items.json', 'r')
+    print "Reading in data from shared.json ..."
+    gex_im = open('shared.json', 'r')
     gex = json.load(gex_im)
     gex_im.close()
     # we insert them in the order of date
