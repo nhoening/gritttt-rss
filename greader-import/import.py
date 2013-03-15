@@ -100,7 +100,7 @@ def write_sql(items, shared, c):
         # link
         if 'alternate' not in item:
             print('Could not import item with id {}. It does not seem to have'\
-                  ' any href-inforamtion.'.format(item['id']))
+                  ' any href-information.'.format(item['id']))
             continue
         link = item['alternate'][0]['href']
         # title, or just link
