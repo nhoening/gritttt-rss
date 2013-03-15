@@ -8,21 +8,24 @@ are doing this. I am not responsible for data loss or corruption.
 
 2. You need to export your shared/starred items from your Google account.
 Go to `Google Reader -> settings -> Import/Export -> Download your data through Takeout`.
-In the zip-archive, you'll get from this, there should be two files called 
+In the zip-archive, you will get from this, there should be two files called 
 `shared.json` and `starred.json`. Put them in this directory.
 
-3. Make sure a dedicated feed exists in your tt-rss. You can insert it via executing 
-the SQL in the file `create-gritttt-feed.sql`, which you can find in the 
+3 . If you want, you can link all imported items to a certain feed. 
+You can insert a new feed into the DB by executing the SQL in the file `create-gritttt-feed.sql`, which you can find in the 
 main directory. Take note of the ID this feed has in the table `ttrss_feeds`
-(You'll need that to create imports).
+(You will need that while you create imports).
+However, if you simply want the items to be in your database (you can always find them in the virtual feeds for published and starred items, anyway), you can skip this step.
+
 
 # Importing
 
-1. Execute the `import.py` script ("python import.py" in a terminal). Tell it your user Id & the feed ID when
+1. Execute the `import.py` script ("python import.py" in a terminal). Tell it your user Id & (possibly) the feed ID when
 it asks for them, and decide if you want shared and/or starred items. You should now have a file called `gritttt-import.sql` in this directory.
 
 2. Import the resulting SQL in `gritttt-import.sql` into your tt-rss database
 (via some import functionality, e.g. with phpMyAdmin). 
+
 
 Notes: 
 

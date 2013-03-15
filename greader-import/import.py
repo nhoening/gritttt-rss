@@ -34,7 +34,8 @@ except:
 print "If you want, you can link all imported items to a certain feed "\
       "(You can create a new dedicated feed with the SQL in the file 'create-gritttt-feed.sql'). "\
       "Enter the ID of that feed now."\
-      "However, if you simply want the items in your database (you can always find them in the "\
+      "However, if you simply want the items to be in your database without being connected to "\
+      "a certain feed (you can always find them in the "\
       "virtual feeds for published and starred items, anyway), just hit Enter."   
 feed_id = raw_input()
 if feed_id == '':
