@@ -21,24 +21,31 @@ import os
 
 
 # get IDs
+
 print "Please enter your user ID (usually, you are admin, who has ID 1):"
 owner_uid = raw_input()
-
 try:
     owner_uid = int(owner_uid)
     assert(owner_uid > 0)
 except:
     print 'Invalid ID (should be a positive number)'
     sys.exit(2)
-print "Please enter the ID of your gritttt-feed (You can create a new feed with the SQL in "\
-      "the file 'create-gritttt-feed.sql'):"
+
+print "If you want, you can link all imported items to a certain feed "\
+      "(You can create a new dedicated feed with the SQL in the file 'create-gritttt-feed.sql'). "\
+      "Enter the ID of that feed now."\
+      "However, if you simply want the items in your database (you can always find them in the "\
+      "virtual feeds for published and starred items, anyway), just hit Enter."   
 feed_id = raw_input()
-try:
-    feed_id = int(feed_id)
-    assert(feed_id > 0)
-except:
-    print 'Invalid ID (should be a positive number)'
-    sys.exit(2)
+if feed_id == '':
+    feed_id = 'NULL'
+else:
+    try:
+        feed_id = int(feed_id)
+        assert(feed_id > 0)
+    except:
+        print 'Invalid ID (should be a positive number)'
+        sys.exit(2)
 
 # which data to import
 print "Should we import shared articles (Y/n)? (then I expect you to have exported a file "\
@@ -145,8 +152,8 @@ if do_shared:
     items.reverse()
     counter = write_sql(items, True, counter)
 
-
-ttim.write("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = {id};".format(id=feed_id));
+if feed_id != 'NULL':
+    ttim.write("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = {id};".format(id=feed_id));
 
 ttim.close()
 

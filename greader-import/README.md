@@ -28,4 +28,3 @@ Notes:
 
 * when importing a large file with SQL statements (and yours might already be pretty large), phpMyAdmin might by default abort after a while but should offer to resume. Depending on file size, multiple operations might be necessary, so read carefully what phpMyAdmin is telling you!
 * I only tested this on MySQL, not Postgres.
-* I think it is not necessary to create a dedicated feed and instead set feed_id to NULL. I may make that possible (and thus the import process easier) soon.
