@@ -29,5 +29,6 @@ it asks for them, and decide if you want shared and/or starred items. You should
 
 Notes: 
 
-* when importing a large file with SQL statements (and yours might already be pretty large), phpMyAdmin might by default abort after a while but should offer to resume. Depending on file size, multiple operations might be necessary, so read carefully what phpMyAdmin is telling you!
+* Requires python version to be >= 2.6. If your webserver does not fulfill this requirement, just generate the SQL on your local PC (Python 2.6 is from 2008, so every home PC or Mac has that by now). That is how I used it from the beginning, anyway.
+* When importing a large file with SQL statements (and yours might already be pretty large), phpMyAdmin might by default abort after a while but should offer to resume. Depending on file size, multiple operations might be necessary, so read carefully what phpMyAdmin is telling you!
 * I only tested this on MySQL, not Postgres.
