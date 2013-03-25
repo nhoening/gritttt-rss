@@ -82,6 +82,7 @@ print "Writing gritttt-import.sql ..."
 ttim = open('gritttt-import.sql', 'w')
 ttim.write('-- SQL Import from Google Reader, created {0} \n\n '\
            .format(datetime.now()))
+ttim.write('begin;\n\n')
 
 def s(unicode_str):
     '''
@@ -92,6 +93,8 @@ def s(unicode_str):
     s = unicode_str.encode('utf-8', 'ignore')
     s = s.replace("\\'", "'") # unescape already escaped ones
     s = re.sub('''(['"])''', r'\\\1', s)
+    # Fix quoting for multi-line inserts in Postgres
+    s = s.replace('\n','\'\nE\'')
     return s
 
 
@@ -114,10 +117,10 @@ def write_sql(items, shared, c):
             if item.has_key(k):
                 content += item[k]['content']
         # updated is when feed item was published, make nice SQL date
-        pub = datetime.fromtimestamp(item['published']).strftime('%Y-%m-%d %H-%M-%S')
+        pub = datetime.fromtimestamp(item['published']).strftime('%Y-%m-%d %H:%M:%S')
 
         ttim.write("INSERT INTO ttrss_entries (guid, title, link, date_entered, date_updated, updated, content, content_hash) VALUES \
-                    ('{g}', '{t}', '{l}', '{pub}', '{pub}', '{pub}', '{c} ', '');\n"\
+                    ('{g}', '{t}', '{l}', '{pub}', '{pub}', '{pub}', E'{c} ', '');\n"\
                     .format(g='%s,imported:%f' % (s(link), time()),
                             t=s(title), l=s(link), pub=pub, c=s(content)))
         # copy user notes
@@ -125,8 +128,8 @@ def write_sql(items, shared, c):
         if len(item['annotations']) > 0:
             note = item['annotations'][0]['content']
         ttim.write("INSERT INTO ttrss_user_entries (label_cache, uuid, tag_cache, ref_id, feed_id, owner_uid, published, marked,  note, unread) \
-                    SELECT '', '', '', max(id), {fid}, {oid}, {pub}, {mar}, '{n} ', 0 FROM ttrss_entries;\n\n"\
-                    .format(fid=feed_id , oid=owner_uid, pub=int(shared), mar=int(not shared), n=s(note)))
+                    SELECT '', '', '', max(id), {fid}, {oid}, {pub}, {mar}, '{n} ', false FROM ttrss_entries;\n\n"\
+                    .format(fid=feed_id , oid=owner_uid, pub=bool(shared), mar=bool(not shared), n=s(note)))
         c += 1
     return c
 
@@ -155,7 +158,7 @@ if do_shared:
 
 if feed_id != 'NULL':
     ttim.write("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = {id};".format(id=feed_id));
-
+ttim.write('commit;\n')
 ttim.close()
 
 print "Done. I wrote {0} entries.".format(counter)
