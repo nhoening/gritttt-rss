@@ -48,6 +48,17 @@ else:
         print 'Invalid ID (should be a positive number)'
         sys.exit(2)
 
+# which database to import to
+print "Are you importing to a MySQL database (Y/n)? (no assumes PostgreSQL):"
+mysql_database = raw_input().lower()
+if not mysql_database in ['', 'y', 'n']:
+    print 'Invalid choice'
+    sys.exit(2)
+if mysql_database in ['', 'y']:
+    mysql_database = True
+else:
+    mysql_database = False
+
 # which data to import
 print "Should we import shared articles (Y/n)? (then I expect you to have exported a file "\
       "called shared.json from Google):"
@@ -91,7 +102,10 @@ def s(unicode_str):
     '''
     s = unicode_str.encode('utf-8', 'ignore')
     s = s.replace("\\'", "'") # unescape already escaped ones
-    s = re.sub('''(['"])''', r'\\\1', s)
+    if mysql_database:
+        s = re.sub('''(['"])''', r'\\\1', s)
+    else: # PostgreSQL is assumed
+        s = re.sub('''(['])''', r"''", s)
     return s
 
 
@@ -114,7 +128,7 @@ def write_sql(items, shared, c):
             if item.has_key(k):
                 content += item[k]['content']
         # updated is when feed item was published, make nice SQL date
-        pub = datetime.fromtimestamp(item['published']).strftime('%Y-%m-%d %H-%M-%S')
+        pub = datetime.fromtimestamp(item['published']).strftime('%Y-%m-%d %H:%M:%S')
 
         ttim.write("INSERT INTO ttrss_entries (guid, title, link, date_entered, date_updated, updated, content, content_hash) VALUES \
                     ('{g}', '{t}', '{l}', '{pub}', '{pub}', '{pub}', '{c} ', '');\n"\
@@ -124,9 +138,14 @@ def write_sql(items, shared, c):
         note = ''
         if len(item['annotations']) > 0:
             note = item['annotations'][0]['content']
-        ttim.write("INSERT INTO ttrss_user_entries (label_cache, uuid, tag_cache, ref_id, feed_id, owner_uid, published, marked,  note, unread) \
-                    SELECT '', '', '', max(id), {fid}, {oid}, {pub}, {mar}, '{n} ', 0 FROM ttrss_entries;\n\n"\
-                    .format(fid=feed_id , oid=owner_uid, pub=int(shared), mar=int(not shared), n=s(note)))
+        if mysql_database:
+            ttim.write("INSERT INTO ttrss_user_entries (label_cache, uuid, tag_cache, ref_id, feed_id, owner_uid, published, marked,  note, unread) \
+                        SELECT '', '', '', max(id), {fid}, {oid}, {pub}, {mar}, '{n} ', 0 FROM ttrss_entries;\n\n"\
+                        .format(fid=feed_id , oid=owner_uid, pub=int(shared), mar=int(not shared), n=s(note)))
+        else: # PostgreSQL is assumed
+            ttim.write("INSERT INTO ttrss_user_entries (label_cache, uuid, tag_cache, ref_id, feed_id, owner_uid, published, marked,  note, unread) \
+                        SELECT '', '', '', max(id), {fid}, {oid}, {pub}, {mar}, '{n} ', False FROM ttrss_entries;\n\n"\
+                        .format(fid=feed_id , oid=owner_uid, pub=shared, mar=(not shared), n=s(note)))
         c += 1
     return c
 
