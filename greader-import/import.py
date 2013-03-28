@@ -152,6 +152,8 @@ def write_sql(items, shared, c):
 
 counter = 0
 
+ttim.write("BEGIN;\n\n");
+
 if do_starred:
     print "Reading in data from starred.json ..."
     gex_im = open('starred.json', 'r')
@@ -173,7 +175,10 @@ if do_shared:
     counter = write_sql(items, True, counter)
 
 if feed_id != 'NULL':
-    ttim.write("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = {id};".format(id=feed_id));
+    ttim.write("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = {id};\n\n".format(id=feed_id));
+
+
+ttim.write("COMMIT;\n\n");
 
 ttim.close()
 
