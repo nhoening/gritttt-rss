@@ -1,6 +1,6 @@
 # A widget to display your shared items on any webpage
 
-1. Put this directory on your webserver.
+1. Put this directory on your webserver. Create an empty file 'widget.css' in it (you can create custom styling for the widget in there, if you want).
 
 2. Install the widget on a webpage of yours by calling it via Javascript:<br/>
    The HTML-document, on which the widget should appear, needs to include the javascript in `widget.js` when loading. It needs to call the function `displayRSS` and pass to it the address of your public tt-rss feed and pass to it the ID of an element somewhere on your page, into which the resulting HTML will be inserted once the page is loaded. You can also pass a restriction on the number of items shown (default is 8, I think tt-rss returns up to 30). More info inside of `widget.js`.
