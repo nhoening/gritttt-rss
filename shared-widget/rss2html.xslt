@@ -15,7 +15,7 @@
         <xsl:attribute name="href">
             <xsl:value-of select="$ttrss_feed_url"/>
         </xsl:attribute>
-        My public feed
+        My shared articles
     </a>
   </div>
 
