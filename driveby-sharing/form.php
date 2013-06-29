@@ -10,21 +10,12 @@ preg_match("/config[ ]?=[ ]?\{([^\;]+)\\;/", $datastring, $matches);
 $config = json_decode('{' . $matches[1], true);
 $gritttt_url = $config['gritttt_url'];
 $path_to_ttrss = $config['path_to_ttrss'];
-$ttrss_above_1510 = $config['ttrss_version_above_1.5.10'];
 
-if ($ttrss_above_1510) {
-    set_include_path(get_include_path() . PATH_SEPARATOR . $path_to_ttrss);
-    require_once($path_to_ttrss . "/include/functions.php");
-    require_once($path_to_ttrss . "/include/sessions.php");
-} else {
-    require_once($path_to_ttrss . "/functions.php");
-    require_once($path_to_ttrss . "/sessions.php");
-}
+set_include_path(get_include_path() . PATH_SEPARATOR . $path_to_ttrss);
+require_once($path_to_ttrss . "/classes/idb.php");
+require_once($path_to_ttrss . "/include/sessions.php");
 
 ini_set('default_charset', 'utf-8');
-
-$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-init_connection($link);
 ?>
 
 <html>
@@ -49,7 +40,7 @@ init_connection($link);
 
 <?
 // Logged in?
-if ($_SESSION["uid"] && validate_session($link)) {
+if ($_SESSION["uid"] && validate_session()) {
 ?>
     <!-- Show form -->
     <form id="gritttt-form" method="post" action="">

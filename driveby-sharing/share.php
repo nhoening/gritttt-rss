@@ -11,43 +11,31 @@ $config = json_decode('{' . $matches[1], true);
 $feed_id = $config['feed_id'];
 $user_id = $config['user_id'];
 $path_to_ttrss = $config['path_to_ttrss'];
-$ttrss_above_1510 = $config['ttrss_version_above_1.5.10'];
 
 header('Content-Type: text/html; charset=utf-8');
-if ($ttrss_above_1510) {
-    set_include_path(get_include_path() . PATH_SEPARATOR . $path_to_ttrss);
-    require_once($path_to_ttrss . "/include/functions.php");
-    require_once($path_to_ttrss . "/include/sessions.php");
-} else {
-    require_once($path_to_ttrss . "/functions.php");
-    require_once($path_to_ttrss . "/sessions.php");
-}
 
-$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-init_connection($link);
-
-if (1 == 1) { // if mysql
-    mysql_set_charset('utf8', $link);
-}
+set_include_path(get_include_path() . PATH_SEPARATOR . $path_to_ttrss);
+require_once($path_to_ttrss . "/classes/idb.php");
+require_once($path_to_ttrss . "/include/sessions.php");
 
 $MSG = 'success';
 
-if ($_SESSION["uid"] && validate_session($link)) {
+if ($_SESSION["uid"] && validate_session()) {
     try{
-        $t = mysql_real_escape_string($_POST['gritttt-title']);
-        $url = mysql_real_escape_string($_POST['gritttt-url']);
+        $t = Db::get()->escape_string($_POST['gritttt-title']);
+        $url = Db::get()->escape_string($_POST['gritttt-url']);
         $uid = $url.',imported:'.time();
-        $c = mysql_real_escape_string($_POST['gritttt-comment']);
-        // Make new entry in ttrss_entries, set (title, link, content) from request, Remember new-id 
-        db_query($link, "INSERT into ttrss_entries (title, link, guid, date_entered, date_updated, updated) VALUES ('$t', '$url', '$uid', NOW(), NOW(), NOW());");
-        if (1 == 1) {
-            $last_id = mysql_insert_id();
-        } else {
-            // TODO: find ttrss_entry id for non-MySQL DBs (e.g. postgres)
-        }
-        // Make new entry in ttrss_user_entries
-        db_query($link, "INSERT into ttrss_user_entries (ref_id, feed_id, owner_uid, note, published, unread) VALUES ($last_id, $feed_id, $user_id, '$c', 1, 0);");
-        db_query($link, "UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = $feed_id;");
+        $c = Db::get()->escape_string($_POST['gritttt-comment']);
+        // 1. Make new entry in ttrss_entries, set (title, link, content) from request, Remember new-id 
+        Db::get()->query("INSERT into ttrss_entries (title, link, guid, date_entered, date_updated, updated) VALUES ('$t', '$url', '$uid', NOW(), NOW(), NOW());");
+        // 2. Make new entry in ttrss_user_entries
+        // We have to do this SELECT instead of using a function like mysqli_insert_id bcs tt-rss doesn't
+        // expose that functionality via its iDB interface
+        $res = Db::get()->query('SELECT MAX(id) as maxid FROM ttrss_entries;');
+        $last_id = Db::get()->fetch_result($res, 0, 'maxid');
+        Db::get()->query("INSERT into ttrss_user_entries (ref_id, feed_id, owner_uid, note, published, unread, last_published) VALUES ($last_id, $feed_id, $user_id, '$c', 1, 0, NOW());");
+        // 3. tell everyone that the gritttt-feed has been updated
+        Db::get()->query("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = $feed_id;");
     } catch (Exception $e) { // does not catch DB errors yet ?
         $MSG = 'failure:'.$e->getMessage();
     }
