@@ -66,7 +66,7 @@ function scriptPath() {
     }
     // nh: making sure path is absolute (FF makes relative paths absolute on it's own,
     //     not sure about others)
-    if (path.substring(0,7) !== 'http://') {
+    if (path.substring(0,7) !== 'http://' && path.substring(0,8) !== 'https://') {
         path = path + window.location.hostname + window.location.pathname;
     }
     return path;
